@@ -72,11 +72,20 @@ void Cat::ResolveCollision(GameObject* other_object)
     switch (other_object->Type())
     {
     case GameObjectType::Floor: [[fallthrough]];
+    case GameObjectType::Platform: [[fallthrough]];
     case GameObjectType::Crates:
         if (current_state == &state_falling && GetPosition().x > other_rect.Left() && GetPosition().x < other_rect.Right()) {
             if (cat_rect.Top() > other_rect.Top()) {
                 SetPosition({ GetPosition().x, other_rect.Top() });
                 standing_on = other_object;
+                current_state->CheckExit(this);
+                return;
+            }
+        }
+        if (current_state == &state_jumping && GetPosition().x > other_rect.Left() && GetPosition().x < other_rect.Right()) {
+            if (cat_rect.Bottom() < other_rect.Bottom()) {
+                SetPosition({ GetPosition().x, other_rect.Bottom() - cat_rect.Size().y});
+                SetVelocity(Math::vec2(GetVelocity().x, 0));
                 current_state->CheckExit(this);
                 return;
             }

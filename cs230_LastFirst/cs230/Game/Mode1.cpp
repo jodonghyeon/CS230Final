@@ -28,6 +28,8 @@ Created:    March 14, 2024
 #include "Score.h"
 #include "..\Engine\Particle.h"
 #include "Particles.h"
+#include "Platform.h"
+#include "Platforms.h"
 
 Mode1::Mode1():cat_ptr(nullptr),timer_texture(nullptr),last_time((int)timer_max),score_texture(nullptr),last_score(0)
 { }
@@ -36,7 +38,7 @@ void Mode1::Load() {
 #ifdef _DEBUG
     AddGSComponent(new CS230::ShowCollision());
 #endif
-    AddGSComponent(new CS230::Camera({ { 0.15 * Engine::GetWindow().GetSize().x, 0 }, { 0.35 * Engine::GetWindow().GetSize().x, 0 } }));
+    AddGSComponent(new CS230::Camera({ { 0.15 * Engine::GetWindow().GetSize().x, 0.7 * Engine::GetWindow().GetSize().y }, { 0.35 * Engine::GetWindow().GetSize().x, 0.8 * Engine::GetWindow().GetSize().y } }));
     AddGSComponent(new Gravity(gravity));
     AddGSComponent(new CS230::Timer(timer_max));
     last_time = timer_max;
@@ -75,6 +77,8 @@ void Mode1::Load() {
     gameobjectmanager->Add(new Floor(Math::irect{ { 1014, 0 }, { 2700, static_cast<int>(floor) } }));
     gameobjectmanager->Add(new Floor(Math::irect{ { 2884, 0 }, { 4126, static_cast<int>(floor) } }));
     gameobjectmanager->Add(new Floor(Math::irect{ { 4208, 0 }, { 5760, static_cast<int>(floor) } }));
+    gameobjectmanager->Add(new Platform({ 800, 200 }, 420, Platforms::Underground));
+    gameobjectmanager->Add(new Platform({ 1500, 200 }, 420, Platforms::Underground));
     gameobjectmanager->Add(new Portal(static_cast<int>(States::Menu), Math::irect{ { background->GetSize().x - 10,0}, {background->GetSize()} }));
 
     CS230::Camera* camera = GetGSComponent<CS230::Camera>();

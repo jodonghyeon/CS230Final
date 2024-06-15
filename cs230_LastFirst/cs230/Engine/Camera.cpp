@@ -40,6 +40,13 @@ void CS230::Camera::Update(const Math::vec2& player_position) {
         position.x = player_position.x - player_zone.Left();
     }
 
+    if (player_position.y > player_zone.Top() + position.y) {
+        position.y = player_position.y - player_zone.Top();
+    }
+    if (player_position.y < player_zone.Bottom() + position.y) {
+        position.y = player_position.y - player_zone.Bottom();
+    }
+
     if (position.x < limit.Left()) {
         position.x = limit.Left();
     }
