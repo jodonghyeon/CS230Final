@@ -118,6 +118,12 @@
     <ClCompile Include="Game\Platform.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Mode3.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Ball.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Logger.h">
@@ -256,6 +262,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Platforms.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Mode3.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Ball.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

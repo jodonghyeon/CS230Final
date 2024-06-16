@@ -22,5 +22,6 @@ enum class GameObjectType {
     Portal,
     Particle,
     Platform,
+    Ball,
     Count,
 };

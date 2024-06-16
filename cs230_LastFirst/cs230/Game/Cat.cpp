@@ -12,7 +12,6 @@ Created:    March 31, 2024
 #include "Gravity.h"
 #include "..\Engine\GameObject.h"
 #include "Cat.h"
-#include "Mode1.h"
 #include "..\Engine\Sprite.h"
 #include "..\Engine\Input.h"
 #include "..\Engine\Vec2.h"
@@ -82,7 +81,7 @@ void Cat::ResolveCollision(GameObject* other_object)
                 return;
             }
         }
-        if (current_state == &state_jumping && GetPosition().x > other_rect.Left() && GetPosition().x < other_rect.Right()) {
+        if (GetPosition().x > other_rect.Left() && GetPosition().x < other_rect.Right()) {
             if (cat_rect.Bottom() < other_rect.Bottom()) {
                 SetPosition({ GetPosition().x, other_rect.Bottom() - cat_rect.Size().y});
                 SetVelocity(Math::vec2(GetVelocity().x, 0));

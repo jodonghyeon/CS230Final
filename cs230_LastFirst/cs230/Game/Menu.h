@@ -28,9 +28,10 @@ private:
     CS230::Texture* title_texture;
     CS230::Texture* mode1_texture;
     CS230::Texture* mode2_texture;
+    CS230::Texture* mode3_texture;
     CS230::Texture* exit_texture;
     int select;
-    const int max_select=3;
+    const int max_select=4;
 
     void update_select_text(int select, unsigned int color);
 };

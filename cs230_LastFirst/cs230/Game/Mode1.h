@@ -11,7 +11,6 @@ Created:    March 14, 2024
 #pragma once
 #include "..\Engine\GameState.h"
 #include "..\Engine\Sprite.h"
-#include "..\Engine\Camera.h"
 #include "..\Engine\GameObjectManager.h"
 #include "Background.h"
 

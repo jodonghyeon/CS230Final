@@ -1,0 +1,12 @@
+Assets/ColorfullBall.png
+FrameSize 60 60
+HotSpot 30 30
+NumFrames 8
+RectCollision -30 -30 30 30
+Anim Assets/BallRolling1.anm
+Anim Assets/BallRolling2.anm
+Anim Assets/BallRolling3.anm
+Anim Assets/BallRolling4.anm
+Anim Assets/BallRolling5.anm
+Anim Assets/BallDashing.anm
+Anim Assets/BallDead.anm

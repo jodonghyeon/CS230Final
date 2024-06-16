@@ -21,6 +21,7 @@ void Menu::Load()
     title_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("CS230 Engine Test", 0xA287FDFF);
     mode1_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Side Scroller", 0xFFFFFFFF);
     mode2_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Space Shooter", 0x81AC00FF);
+    mode3_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Unstoppable BB", 0x81AC00FF);
     exit_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Exit", 0x81AC00FF);
 }
 
@@ -45,6 +46,9 @@ void Menu::Update(double dt)
             Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Mode2));
         }
         else if (select == 3) {
+            Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Mode3));
+        }
+        else if (select == 4) {
             Engine::GetGameStateManager().ClearNextGameState();
         }
     }
@@ -59,8 +63,9 @@ void Menu::Draw()
     const double title_scaler = 1.5;
     title_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - (int)(title_scaler *title_texture->GetSize().x))/2, Engine::GetWindow().GetSize().y - (int)(title_scaler *title_texture->GetSize().y) - 100 }) * Math::ScaleMatrix(Math::vec2{ title_scaler,title_scaler }));
     mode1_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - mode1_texture->GetSize().x) / 2, Engine::GetWindow().GetSize().y - mode1_texture->GetSize().y - 250 }));
-    mode2_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - mode2_texture->GetSize().x) / 2, Engine::GetWindow().GetSize().y - mode2_texture->GetSize().y - 350 }));
-    exit_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - exit_texture->GetSize().x) / 2, Engine::GetWindow().GetSize().y - exit_texture->GetSize().y - 450 }));
+    mode2_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - mode2_texture->GetSize().x) / 2, Engine::GetWindow().GetSize().y - mode2_texture->GetSize().y - 330 }));
+    mode3_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - mode3_texture->GetSize().x) / 2, Engine::GetWindow().GetSize().y - mode3_texture->GetSize().y - 410 }));
+    exit_texture->Draw(Math::TranslationMatrix(Math::ivec2{ (Engine::GetWindow().GetSize().x - exit_texture->GetSize().x) / 2, Engine::GetWindow().GetSize().y - exit_texture->GetSize().y - 490 }));
 }
 
 void Menu::update_select_text(int select,unsigned int color)
@@ -72,6 +77,9 @@ void Menu::update_select_text(int select,unsigned int color)
         mode2_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Space Shooter", color);
     }
     else if (select == 3) {
+        mode3_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Unstoppable BB", color);
+    }
+    else if (select == 4) {
         exit_texture = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Exit", color);
     }
 }

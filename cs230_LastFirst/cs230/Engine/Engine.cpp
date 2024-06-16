@@ -14,7 +14,7 @@ Engine::Engine() :last_tick(std::chrono::system_clock::now()),
 #ifdef _DEBUG
     logger(CS230::Logger::Severity::Debug, true,last_tick)
 #else
-    logger(CS230::Logger::Severity::Event, false)
+    logger(CS230::Logger::Severity::Event, false, last_tick)
 #endif
 { }
 

@@ -1,3 +1,10 @@
+/*
+File Name:  Platform.h
+Project:    CS230 Final
+Author:     Donghyeon Jo
+Created:    June 15, 2024
+*/
+
 #pragma once
 #include "..\Engine\GameObject.h"
 #include "..\Engine\Vec2.h"

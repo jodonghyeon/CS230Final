@@ -1,3 +1,10 @@
+/*
+File Name:  Platform.cpp
+Project:    CS230 Final
+Author:     Donghyeon Jo
+Created:    June 15, 2024
+*/
+
 #include "Platform.h"
 #include "..\Engine\Collision.h"
 #include "..\Engine\Engine.h"

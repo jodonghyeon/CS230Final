@@ -11,17 +11,6 @@ Created:    March 14, 2024
 #include "Window.h"
 #include "Engine.h"
 
-void CS230::Window::Clear(unsigned int rgba) {
-    const Color rl_color = Color{
-        static_cast<unsigned char>((rgba & 0xff000000) >> 24),
-        static_cast<unsigned char>((rgba & 0x00ff0000) >> 16),
-        static_cast<unsigned char>((rgba & 0x0000ff00) >> 8),
-        static_cast<unsigned char>((rgba & 0x000000ff) >> 0)
-    };
-
-    ClearBackground(rl_color);
-}
-
 void CS230::Window::Start(std::string title) {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT | FLAG_MSAA_4X_HINT);
     InitWindow(default_width, default_height, title.c_str());
@@ -44,10 +33,26 @@ void CS230::Window::Update() {
     BeginDrawing();
 }
 
+void CS230::Window::SetSize(int width, int height)
+{
+    SetWindowSize(width, height);
+}
+
 bool CS230::Window::IsClosed() const {
     return WindowShouldClose();
 }
 
 Math::ivec2 CS230::Window::GetSize() const {
     return size;
+}
+
+void CS230::Window::Clear(unsigned int rgba) {
+    const Color rl_color = Color{
+        static_cast<unsigned char>((rgba & 0xff000000) >> 24),
+        static_cast<unsigned char>((rgba & 0x00ff0000) >> 16),
+        static_cast<unsigned char>((rgba & 0x0000ff00) >> 8),
+        static_cast<unsigned char>((rgba & 0x000000ff) >> 0)
+    };
+
+    ClearBackground(rl_color);
 }

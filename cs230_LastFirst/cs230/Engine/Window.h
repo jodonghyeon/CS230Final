@@ -20,6 +20,7 @@ namespace CS230 {
     public:
         void Start(std::string title);
         void Update();
+        void SetSize(int width, int height);
         bool IsClosed() const;
         Math::ivec2 GetSize() const;
         void Clear(unsigned int color);
