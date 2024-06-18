@@ -39,6 +39,7 @@ private:
     static constexpr int dead_height = -120;
 
     CS230::GameObject* standing_on;
+    CS230::GameObject* previous_enemy;
 
     Math::vec2 get_dash_velocity();
 

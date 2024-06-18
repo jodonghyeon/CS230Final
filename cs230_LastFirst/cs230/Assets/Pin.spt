@@ -1,0 +1,7 @@
+Assets/Pin.png
+FrameSize 60 60
+HotSpot 0 0
+NumFrames 3
+RectCollision 0 0 60 60
+Anim Assets/None.anm
+Anim Assets/PinDying.anm

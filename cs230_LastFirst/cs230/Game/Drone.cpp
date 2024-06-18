@@ -21,7 +21,7 @@ Drone::Drone(Math::vec2 position, Ball* ball)
 void Drone::ResolveCollision(GameObject* other_object)
 {
 	if (other_object->Type() == GameObjectType::Ball) {
-		change_state(&state_dead);
+		change_state(&state_dying);
 	}
 }
 

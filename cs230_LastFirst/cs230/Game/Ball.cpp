@@ -24,7 +24,7 @@ Created:    June 16, 2024
 #include "Orb.h"
 
 Ball::Ball(Math::vec2 start_position) 
-    : GameObject(start_position),standing_on(nullptr)
+    : GameObject(start_position),standing_on(nullptr),previous_enemy(nullptr)
 {
     AddGOComponent(new CS230::Sprite("Assets/Ball.spt", this));
     AddGOComponent(new Level(*this, exp_max1,max_level));
@@ -37,7 +37,7 @@ void Ball::Update(double dt)
 {
     GetGOComponent<Level>()->ResetIsLevelUpdated();
     //Engine::GetLogger().LogDebug("stamina: " + std::to_string(GetGOComponent<Stamina>()->GetStamina()));
-
+    Engine::GetLogger().LogDebug("Level: "+std::to_string(GetGOComponent<Level>()->GetLevel()));
     GameObject::Update(dt);
     if (GetGOComponent<Level>()->IsLevelUpdated()) {
         GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
@@ -62,6 +62,10 @@ bool Ball::CanCollideWith(GameObjectType other_object_type)
 
 void Ball::ResolveCollision(GameObject* other_object)
 {
+    if (previous_enemy == other_object) {
+        return;
+    }
+
     Math::rect ball_rect = GetGOComponent<CS230::RectCollision>()->WorldBoundary();
     Math::rect other_rect = other_object->GetGOComponent<CS230::RectCollision>()->WorldBoundary();
     switch (other_object->Type())
@@ -91,7 +95,9 @@ void Ball::ResolveCollision(GameObject* other_object)
             UpdatePosition(Math::vec2{ (other_rect.Right() - ball_rect.Left()), 0.0 });
             SetVelocity({ 0, GetVelocity().y });
         }
+        break;
     case GameObjectType::Pin:
+        previous_enemy = other_object;
         if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
             GetGOComponent<Level>()->UpdateEXP(Pin::exp_give);
             other_object->ResolveCollision(this);
@@ -99,7 +105,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
         }
+        break;
     case GameObjectType::Dumbbell:
+        previous_enemy = other_object;
         if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
             GetGOComponent<Level>()->UpdateEXP(Dumbbell::exp_give);
             other_object->ResolveCollision(this);
@@ -107,7 +115,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
         }
+        break;
     case GameObjectType::Corn:
+        previous_enemy = other_object;
         if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
             GetGOComponent<Level>()->UpdateEXP(Corn::exp_give);
             other_object->ResolveCollision(this);
@@ -115,7 +125,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
         }
+        break;
     case GameObjectType::Drone:
+        previous_enemy = other_object;
         if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
             GetGOComponent<Level>()->UpdateEXP(Drone::exp_give);
             other_object->ResolveCollision(this);
@@ -123,7 +135,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
         }
+        break;
     case GameObjectType::Orb:
+        previous_enemy = other_object;
         if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
             GetGOComponent<Level>()->UpdateEXP(Orb::exp_give);
             other_object->ResolveCollision(this);
@@ -131,6 +145,7 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
         }
+        break;
     default:
         break;
     }
@@ -167,7 +182,6 @@ void Ball::State_Rolling::CheckExit(GameObject* object)
     if (Engine::GetInput().KeyDown(CS230::Input::Keys::Space) &&
         Engine::GetGameStateManager().GetGSComponent<CS230::DampingCamera>()->GetPosition().x + Engine::GetInput().GetMousePosition().x > ball->GetPosition().x) {
         ball->change_state(&ball->state_dashing);
-        ball->GetGOComponent<Level>()->LevelUp();
     }
     else if (ball->standing_on != nullptr && ball->standing_on->IsCollidingWith(ball->GetPosition()) == false) {
         ball->standing_on = nullptr;
@@ -192,7 +206,6 @@ void Ball::State_Dashing::Update(GameObject* object, double dt)
 void Ball::State_Dashing::CheckExit(GameObject* object)
 {
     Ball* ball = static_cast<Ball*>(object);
-    Engine::GetLogger().LogDebug("st:   "+std::to_string(Ball::stamina_consumption1 + Ball::stamina_consumption_level_diff * (ball->GetGOComponent<Level>()->GetLevel() - 1)));
     if (!Engine::GetInput().KeyDown(CS230::Input::Keys::Space)||  ball->GetGOComponent<Stamina>()->GetStamina() <= 0.0) {
         if (ball->standing_on != nullptr && ball->standing_on->IsCollidingWith(ball->GetPosition()) == false) {
             ball->standing_on = nullptr;

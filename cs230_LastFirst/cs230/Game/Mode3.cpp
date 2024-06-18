@@ -19,6 +19,11 @@ Created:    June 16, 2024
 #include "Particles.h"
 #include "Platform.h"
 #include "Platforms.h"
+#include "Pin.h"
+#include "Dumbbell.h"
+#include "Corn.h"
+#include "Drone.h"
+#include "Orb.h"
 #include "Particles.h"
 #include "Level.h"
 
@@ -39,25 +44,26 @@ void Mode3::Load()
     AddGSComponent(new CS230::ParticleManager<Particles::Smoke>());
 
     Background* background = GetGSComponent<Background>();
-    background->Add("Assets/Planets.png", 0.25);
-    background->Add("Assets/Ships.png", 0.5);
-    background->Add("Assets/Foreground.png", 1);
+    background->Add("Assets/Background1.png", 0.25);
+    background->Add("Assets/Background2.png", 0.5);
+    background->Add("Assets/Background3.png", 0.75);
 
     CS230::GameObjectManager* gameobjectmanager = GetGSComponent<CS230::GameObjectManager>();
     ball_ptr = new Ball({ 100, 200 });
     gameobjectmanager->Add(ball_ptr);
-    gameobjectmanager->Add(new Platform({ 0, 0 }, 1400, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1200, 0 }, 1000, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 2700, 0 }, 20000, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 200 }, 10000, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 200 }, 440, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 200 }, 500, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 400 }, 500, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 600 }, 500, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 600 }, 1000, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 2700, 600 }, 800, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 3900, 600 }, 600, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 1000 }, 4000, Platforms::Underground));
+    gameobjectmanager->Add(new Platform({ 0, 0 }, 1400, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 1200, 0 }, 1000, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 2700, 0 }, 20000, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 1500, 200 }, 10000, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 1500, 200 }, 440, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 1500, 200 }, 500, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 1500, 400 }, 500, Platforms::Platform1));
+    gameobjectmanager->Add(new Platform({ 1500, 600 }, 500, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 1500, 600 }, 1000, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 2700, 600 }, 800, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 3900, 600 }, 600, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 1500, 1000 }, 4000, Platforms::Platform2));
+    gameobjectmanager->Add(new Pin({ 1000,60 }, ball_ptr));
 
     CS230::DampingCamera* camera = GetGSComponent<CS230::DampingCamera>();
     camera->SetPosition({ 0,0 });

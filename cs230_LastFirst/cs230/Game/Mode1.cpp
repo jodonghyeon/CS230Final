@@ -77,8 +77,6 @@ void Mode1::Load() {
     gameobjectmanager->Add(new Floor(Math::irect{ { 1014, 0 }, { 2700, static_cast<int>(floor) } }));
     gameobjectmanager->Add(new Floor(Math::irect{ { 2884, 0 }, { 4126, static_cast<int>(floor) } }));
     gameobjectmanager->Add(new Floor(Math::irect{ { 4208, 0 }, { 5760, static_cast<int>(floor) } }));
-    gameobjectmanager->Add(new Platform({ 800, 200 }, 420, Platforms::Underground));
-    gameobjectmanager->Add(new Platform({ 1500, 200 }, 420, Platforms::Underground));
     gameobjectmanager->Add(new Portal(static_cast<int>(States::Menu), Math::irect{ { background->GetSize().x - 10,0}, {background->GetSize()} }));
 
     CS230::Camera* camera = GetGSComponent<CS230::Camera>();

@@ -16,14 +16,20 @@ Platform::Platform(Math::vec2 position, int length, Platforms type)
     AddGOComponent(new CS230::RectCollision({ Math::ivec2{ 0, 0 }, Math::ivec2{ length, platform_height } }, this));
 	switch (type)
 	{
-	case Platforms::Underground:
-		texture = Engine::GetTextureManager().Load("Assets/PlatformUnderground.png");
+	case Platforms::Platform1:
+		texture = Engine::GetTextureManager().Load("Assets/Platform1.png");
 		break;
-	case Platforms::Overground:
-		texture = Engine::GetTextureManager().Load("Assets/PlatformOverground.png");
+	case Platforms::Platform2:
+		texture = Engine::GetTextureManager().Load("Assets/Platform2.png");
 		break;
-	case Platforms::Cloud:
-		texture = Engine::GetTextureManager().Load("Assets/PlatformCloud.png");
+	case Platforms::Platform3:
+		texture = Engine::GetTextureManager().Load("Assets/Platform3.png");
+		break;
+	case Platforms::Platform4:
+		texture = Engine::GetTextureManager().Load("Assets/Platform4.png");
+		break;
+	case Platforms::Platform5:
+		texture = Engine::GetTextureManager().Load("Assets/Platform5.png");
 		break;
 	default:
 		break;

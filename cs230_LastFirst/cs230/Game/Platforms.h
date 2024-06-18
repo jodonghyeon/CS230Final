@@ -1,7 +1,9 @@
 #pragma once
 
 enum class Platforms {
-	Underground,
-	Overground,
-	Cloud
+	Platform1,
+	Platform2,
+	Platform3,
+	Platform4,
+	Platform5
 };

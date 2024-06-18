@@ -21,7 +21,7 @@ Dumbbell::Dumbbell(Math::vec2 position, Ball* ball)
 void Dumbbell::ResolveCollision(GameObject* other_object)
 {
 	if (other_object->Type() == GameObjectType::Ball) {
-		change_state(&state_dead);
+		change_state(&state_dying);
 	}
 }
 
