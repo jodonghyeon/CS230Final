@@ -39,6 +39,7 @@ void Engine::Update() {
     if (dt >= 1 / TargetFPS)
     {
         logger.LogVerbose("Engine Update");
+        window.Update();
         last_tick = now;
         
         ++frame_count;
@@ -53,7 +54,6 @@ void Engine::Update() {
         }
         GameStateManager.Update(dt);
         input.Update();
-        window.Update();
     }
     
     //Update other services

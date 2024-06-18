@@ -107,14 +107,30 @@ constexpr int cs230_to_rl(CS230::Input::Keys cs230_key) noexcept {
     }
 }
 
-
-void CS230::Input::SetKeyDown(Keys key, bool value) {
-    keys_down[static_cast<int>(key)] = value;
+constexpr int cs230_to_rl_mouse(CS230::Input::MouseButtons cs230_mouse_button) noexcept {
+    switch (cs230_mouse_button)
+    {
+    case CS230::Input::MouseButtons::Left:
+        return MOUSE_BUTTON_LEFT;
+    case CS230::Input::MouseButtons::Right:
+        return MOUSE_BUTTON_RIGHT;
+    case CS230::Input::MouseButtons::Wheel:
+        return MOUSE_BUTTON_MIDDLE;
+    case CS230::Input::MouseButtons::Side:
+        return MOUSE_BUTTON_SIDE;
+    default:
+        return -1;
+    }
 }
 
 constexpr CS230::Input::Keys& operator++(CS230::Input::Keys& key) noexcept {
     key = static_cast<CS230::Input::Keys>(static_cast<unsigned>(key) + 1);
     return key;
+}
+
+constexpr CS230::Input::MouseButtons& operator++(CS230::Input::MouseButtons& mouse_button) noexcept {
+    mouse_button = static_cast<CS230::Input::MouseButtons>(static_cast<unsigned>(mouse_button) + 1);
+    return mouse_button;
 }
 
 bool CS230::Input::KeyDown(Keys key) {
@@ -129,9 +145,47 @@ bool CS230::Input::KeyJustReleased(Keys key) {
     return keys_down[static_cast<int>(key)] == false && previous_keys_down[static_cast<int>(key)] == true;
 }
 
+void CS230::Input::SetKeyDown(Keys key, bool value) {
+    keys_down[static_cast<int>(key)] = value;
+}
+
+
+bool CS230::Input::MouseButtonDown(MouseButtons mouse_button){
+    return mouse_buttons_down[static_cast<int>(mouse_button)];
+}
+
+bool CS230::Input::MouseButtonJustPressed(MouseButtons mouse_button){
+    return mouse_buttons_down[static_cast<int>(mouse_button)] == true && previous_mouse_buttons_down[static_cast<int>(mouse_button)] == false;
+}
+
+bool CS230::Input::MouseButtonJustReleased(MouseButtons mouse_button){
+    return mouse_buttons_down[static_cast<int>(mouse_button)] == false && previous_mouse_buttons_down[static_cast<int>(mouse_button)] == true;
+}
+
+void CS230::Input::SetMouseButtonDown(MouseButtons mouse_button, bool value){
+    mouse_buttons_down[static_cast<int>(mouse_button)] = value;
+}
+
+bool CS230::Input::IsMouseMoved() const
+{
+    return mouse_position.x != previous_mouse_position.x && mouse_position.y != previous_mouse_position.y;
+}
+
+Math::vec2 CS230::Input::GetMousePosition() const
+{
+    return mouse_position;
+}
+
+Math::vec2 CS230::Input::GetMouseDelta() const
+{
+    return { mouse_position.x - previous_mouse_position.x, mouse_position.y - previous_mouse_position.y };
+}
+
 CS230::Input::Input() {
     keys_down.resize(static_cast<int>(Keys::Count));
     previous_keys_down.resize(static_cast<int>(Keys::Count));
+    mouse_buttons_down.resize(static_cast<int>(MouseButtons::Count));
+    previous_mouse_buttons_down.resize(static_cast<int>(MouseButtons::Count));
 }
 
 void CS230::Input::Update() {
@@ -147,4 +201,18 @@ void CS230::Input::Update() {
         }
     }
 
+    previous_mouse_buttons_down = mouse_buttons_down;
+    for (MouseButtons mouse_button = MouseButtons::Left; mouse_button < MouseButtons::Count; ++mouse_button) {
+        const auto rl_mouse_button = cs230_to_rl_mouse(static_cast<MouseButtons>(mouse_button));
+        SetMouseButtonDown(mouse_button, IsMouseButtonDown(rl_mouse_button));
+        if (MouseButtonJustPressed(mouse_button)) {
+            Engine::GetLogger().LogDebug("MouseButton Pressed");
+        }
+        else if (MouseButtonJustReleased(mouse_button)) {
+            Engine::GetLogger().LogDebug("MouseButton Released");
+        }
+    }
+
+    previous_mouse_position = mouse_position;
+    mouse_position = { (double)GetMouseX(),(double)(Engine::GetWindow().GetSize().y-GetMouseY()) };
 }

@@ -22,18 +22,24 @@ public:
 
     const Math::vec2& GetPosition() const { return GameObject::GetPosition(); }
 
-    const int GetPowerLevel()const { return power_level; }
 
 private:
-    static constexpr int max_power_level = 5;
+    static constexpr int max_level = 5;
+    static constexpr double exp_max1 = 100.0;
+    static constexpr double stamina_max1 = 1.0;
     static constexpr double velocity_rolling1 = 400.0;
-    static constexpr double velocity_diff = 100.0;
-    static constexpr double dash_velocity_rate = 5.0;
+    static constexpr double velocity_level_diff = 100.0;
+    static constexpr double dash_velocity_rate = 2.2;
+    static constexpr double stamina_charge = 0.3;
+    static constexpr double stamina_consumption1 = 1.5;
+    static constexpr double stamina_consumption_level_diff = 0.2;
+    static constexpr double stamina_recovery1 = 1.0;
+    static constexpr double stamina_recovery_level_diff = 0.2;
+    static constexpr int dead_height = -120;
 
-    int power_level;
     CS230::GameObject* standing_on;
 
-    void update_x_velocity(double dt);
+    Math::vec2 get_dash_velocity();
 
     enum class Animations {
         Rolling1,
@@ -42,6 +48,7 @@ private:
         Rolling4,
         Rolling5,
         Dashing,
+        Falling,
         Dead
     };
 
@@ -64,6 +71,16 @@ private:
     };
 
     State_Dashing state_dashing;
+
+    class State_Falling : public State {
+    public:
+        virtual void Enter(GameObject* object) override;
+        virtual void Update(GameObject* object, double dt) override;
+        virtual void CheckExit(GameObject* object) override;
+        std::string GetName() override { return "Falling"; }
+    };
+
+    State_Falling state_falling;
 
     class State_Dead : public State {
     public:

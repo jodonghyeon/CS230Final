@@ -27,8 +27,8 @@ public:
 
     void Draw(Math::TransformationMatrix camera_matrix)override;
 
-    static constexpr int platform_unit_width = 40;
-    static constexpr int platform_height = 40;
+    static constexpr int platform_unit_width = 60;
+    static constexpr int platform_height = 60;
 
 private:
     int length;

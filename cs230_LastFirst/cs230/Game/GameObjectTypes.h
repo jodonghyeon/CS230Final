@@ -23,5 +23,10 @@ enum class GameObjectType {
     Particle,
     Platform,
     Ball,
-    Count,
+    Pin,
+    Dumbbell,
+    Corn,
+    Drone,
+    Orb,
+    Count
 };

@@ -124,6 +124,21 @@
     <ClCompile Include="Game\Ball.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Pin.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Dumbbell.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Corn.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Drone.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Orb.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Logger.h">
@@ -268,6 +283,27 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Ball.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Level.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stamina.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Pin.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Dumbbell.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Drone.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Orb.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Corn.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

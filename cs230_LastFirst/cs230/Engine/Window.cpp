@@ -19,14 +19,17 @@ void CS230::Window::Start(std::string title) {
     BeginDrawing();
     Clear(default_background);
     size = { default_width, default_height };
+    resized_current_frame = true;
 }
 
 void CS230::Window::Update() {
     EndDrawing();
+    resized_current_frame = false;
 
     int current_width = GetScreenWidth();
     int current_height = GetScreenHeight();
     if (current_width != size.x || current_height != size.y) {
+        resized_current_frame = true;
         Engine::GetLogger().LogEvent("Window Resized");
         size = { current_width, current_height };
     }
@@ -55,4 +58,9 @@ void CS230::Window::Clear(unsigned int rgba) {
     };
 
     ClearBackground(rl_color);
+}
+
+bool CS230::Window::IsResized() const
+{
+    return resized_current_frame;
 }
