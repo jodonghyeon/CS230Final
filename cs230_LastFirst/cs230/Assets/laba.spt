@@ -1,7 +1,7 @@
-Assets/pin.png
+Assets/laba.png
 FrameSize 60 60
 HotSpot 0 0
 NumFrames 3
 RectCollision 0 0 60 60
-Anim Assets/pin.anm
+Anim Assets/laba.anm
 Anim Assets/None.anm

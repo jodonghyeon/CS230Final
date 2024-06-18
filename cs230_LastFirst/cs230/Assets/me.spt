@@ -1,7 +1,7 @@
-Assets/pin.png
+Assets/me.png
 FrameSize 60 60
 HotSpot 0 0
-NumFrames 3
+NumFrames 5
 RectCollision 0 0 60 60
-Anim Assets/pin.anm
+Anim Assets/me.anm
 Anim Assets/None.anm
