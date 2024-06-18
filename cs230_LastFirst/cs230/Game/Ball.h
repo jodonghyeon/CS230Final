@@ -26,6 +26,7 @@ public:
 private:
     static constexpr int max_level = 5;
     static constexpr double exp_max1 = 100.0;
+    static constexpr double exp_max_level_diff = 100.0;
     static constexpr double stamina_max1 = 1.0;
     static constexpr double velocity_rolling1 = 400.0;
     static constexpr double velocity_level_diff = 100.0;

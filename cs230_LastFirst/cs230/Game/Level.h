@@ -10,8 +10,8 @@ Created:    June 18, 2024
 
 class Level : public CS230::Component {
 public:
-    Level(CS230::GameObject& object, double exp_max, int start_level = 1)
-        : object(object), exp_max(exp_max), level(start_level)
+    Level(CS230::GameObject& object, double exp_max, int level_max, int start_level = 1)
+        : object(object), level_max(level_max), exp_max(exp_max), level(start_level)
     {
         exp = 0.0;
     }
@@ -32,12 +32,14 @@ public:
     bool IsLevelUpdated()const { return is_level_updated; }
     void Update(double dt) override
     { 
-        if(exp>=exp_max){
+        if(exp>=exp_max&&level<level_max){
             LevelUp();
+            SetEXP(0.0);
         }
     }
 private:
     CS230::GameObject& object;
+    int level_max;
     double exp_max;
     int level;
     double exp;

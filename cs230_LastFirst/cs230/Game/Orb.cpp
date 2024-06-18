@@ -13,7 +13,7 @@ Orb::Orb(Math::vec2 position, Ball* ball)
 	: CS230::GameObject(position), origin(position), ball_ptr(ball), is_dead(false), disappearance(false), dead_time(0.0)
 {
 	AddGOComponent(new CS230::Sprite("Assets/Orb.spt", this));
-	AddGOComponent(new Level(*this, 1, level_default));
+	AddGOComponent(new Level(*this, 1, level_default, level_default));
 	current_state = &state_alive;
 	current_state->Enter(this);
 }

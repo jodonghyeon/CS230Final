@@ -22,6 +22,8 @@ public:
 
 	bool IsAlive() const { return !is_dead; }
 
+	static constexpr int level_default = 2;
+	static constexpr double exp_give = 40.0;
 private:
 	enum class Animations {
 		None,
@@ -63,7 +65,6 @@ private:
 	bool is_dead;
 	bool disappearance;
 	double dead_time;
-	static constexpr int level_default=2;
 	static constexpr double resurrection_time = 5.0;
 	static constexpr double fly_velocity = 300.0;
 };

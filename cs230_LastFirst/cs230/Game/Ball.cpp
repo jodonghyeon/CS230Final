@@ -17,12 +17,17 @@ Created:    June 16, 2024
 #include "..\Engine\Collision.h"
 #include "Level.h"
 #include "Stamina.h"
+#include "Pin.h"
+#include "Dumbbell.h"
+#include "Corn.h"
+#include "Drone.h"
+#include "Orb.h"
 
 Ball::Ball(Math::vec2 start_position) 
     : GameObject(start_position),standing_on(nullptr)
 {
     AddGOComponent(new CS230::Sprite("Assets/Ball.spt", this));
-    AddGOComponent(new Level(*this, exp_max1));
+    AddGOComponent(new Level(*this, exp_max1,max_level));
     AddGOComponent(new Stamina(*this, stamina_max1));
     current_state = &state_falling;
     current_state->Enter(this);
@@ -30,10 +35,16 @@ Ball::Ball(Math::vec2 start_position)
 
 void Ball::Update(double dt)
 {
-    Engine::GetLogger().LogDebug("stamina: " + std::to_string(GetGOComponent<Stamina>()->GetStamina()));
-
     GetGOComponent<Level>()->ResetIsLevelUpdated();
+    //Engine::GetLogger().LogDebug("stamina: " + std::to_string(GetGOComponent<Stamina>()->GetStamina()));
+
     GameObject::Update(dt);
+    if (GetGOComponent<Level>()->IsLevelUpdated()) {
+        GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
+    }
+    if (GetGOComponent<Level>()->GetLevel() <= 0) {
+        change_state(&state_dead);
+    }
 }
 
 void Ball::Draw(Math::TransformationMatrix camera_matrix)
@@ -79,6 +90,46 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             UpdatePosition(Math::vec2{ (other_rect.Right() - ball_rect.Left()), 0.0 });
             SetVelocity({ 0, GetVelocity().y });
+        }
+    case GameObjectType::Pin:
+        if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
+            GetGOComponent<Level>()->UpdateEXP(Pin::exp_give);
+            other_object->ResolveCollision(this);
+        }
+        else {
+            GetGOComponent<Level>()->LevelDown();
+        }
+    case GameObjectType::Dumbbell:
+        if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
+            GetGOComponent<Level>()->UpdateEXP(Dumbbell::exp_give);
+            other_object->ResolveCollision(this);
+        }
+        else {
+            GetGOComponent<Level>()->LevelDown();
+        }
+    case GameObjectType::Corn:
+        if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
+            GetGOComponent<Level>()->UpdateEXP(Corn::exp_give);
+            other_object->ResolveCollision(this);
+        }
+        else {
+            GetGOComponent<Level>()->LevelDown();
+        }
+    case GameObjectType::Drone:
+        if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
+            GetGOComponent<Level>()->UpdateEXP(Drone::exp_give);
+            other_object->ResolveCollision(this);
+        }
+        else {
+            GetGOComponent<Level>()->LevelDown();
+        }
+    case GameObjectType::Orb:
+        if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= 1) {
+            GetGOComponent<Level>()->UpdateEXP(Orb::exp_give);
+            other_object->ResolveCollision(this);
+        }
+        else {
+            GetGOComponent<Level>()->LevelDown();
         }
     default:
         break;
