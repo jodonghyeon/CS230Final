@@ -37,7 +37,7 @@ private:
         virtual void Enter(GameObject* object) override;
         virtual void Update(GameObject* object, double dt) override;
         virtual void CheckExit(GameObject* object) override;
-        std::string GetName() override { return "bounce"; }
+        std::string GetName() override { return "dead"; }
     };
 
     State_Dead state_dead;
@@ -47,7 +47,7 @@ private:
         virtual void Enter(GameObject* object) override;
         virtual void Update(GameObject* object, double dt) override;
         virtual void CheckExit(GameObject* object) override;
-        std::string GetName() override { return "land"; }
+        std::string GetName() override { return "walking"; }
     };
 
     State_Walking state_walking;
@@ -57,7 +57,7 @@ private:
         virtual void Enter(GameObject* object) override;
         virtual void Update(GameObject* object, double dt) override;
         virtual void CheckExit(GameObject* object) override;
-        std::string GetName() override { return "land"; }
+        std::string GetName() override { return "angry"; }
     };
 
     State_Angry state_angry;

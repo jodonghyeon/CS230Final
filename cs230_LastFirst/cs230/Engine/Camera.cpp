@@ -73,49 +73,29 @@ Math::TransformationMatrix CS230::Camera::GetMatrix() {
     return Math::TranslationMatrix(-position);
 }
 
-CS230::DampingCamera::DampingCamera(Math::irect limit, double dampingFactor)
-    :limit(limit), position({ 0,0 }), dampingFactor(dampingFactor)
-{
-}
-
-void CS230::DampingCamera::SetPosition(Math::vec2 new_position)
-{
-    position = new_position;
-}
-
-const Math::vec2& CS230::DampingCamera::GetPosition() const
-{
-    return position;
-}
-
-void CS230::DampingCamera::SetLimit(Math::irect new_limit)
-{
-    limit = new_limit;
-}
-
-const Math::irect& CS230::DampingCamera::GetLimit() const
-{
-    return limit;
-}
-
-void CS230::DampingCamera::SetDampingFactor(double new_dampingFactor)
-{
-    dampingFactor = new_dampingFactor;
-}
+CS230::DampingCamera::DampingCamera(Math::irect limit, Math::rect target_limit, Math::vec2 target_offset, double dampingFactor, Math::vec2 start_position)
+    : limit(limit), target_limit(target_limit),target_offset(target_offset),dampingFactor(dampingFactor),position(start_position)
+{ }
 
 void CS230::DampingCamera::Update(CS230::GameObject* player, double dt)
 {
     Math::rect player_collison_box = player->GetGOComponent<CS230::RectCollision>()->WorldBoundary();
-    Math::vec2 distance = { player_collison_box.Left() - position.x, player_collison_box.Bottom() - position.y};
+    Math::vec2 distance = { player_collison_box.Left() - position.x - target_offset.x, player_collison_box.Bottom() - position.y - target_offset.y };
 
     position.x += distance.x * dampingFactor * dt;
     position.y += distance.y * dampingFactor * dt;
 
-    if (player_collison_box.Left() < position.x) {
-        position.x = player_collison_box.Left();
+    if (player_collison_box.Left() < position.x + target_limit.Left() * Engine::GetWindow().GetSize().x ) {
+        position.x = player_collison_box.Left() - target_limit.Left() * Engine::GetWindow().GetSize().x;
     }
-    if (player_collison_box.Right() > position.x + Engine::GetWindow().GetSize().x) {
-        position.x = player_collison_box.Right() - Engine::GetWindow().GetSize().x;
+    if (player_collison_box.Right() > position.x + target_limit.Right() * Engine::GetWindow().GetSize().x) {
+        position.x = player_collison_box.Right() - target_limit.Right() * Engine::GetWindow().GetSize().x;
+    }
+    if (player_collison_box.Bottom() < position.y + target_limit.Bottom() * Engine::GetWindow().GetSize().y) {
+        position.y = player_collison_box.Bottom() - target_limit.Bottom() * Engine::GetWindow().GetSize().y;
+    }
+    if (player_collison_box.Top() > position.y + target_limit.Top() * Engine::GetWindow().GetSize().y) {
+        position.y = player_collison_box.Top() - target_limit.Top() * Engine::GetWindow().GetSize().y;
     }
 
     if (position.x < limit.Left()) {

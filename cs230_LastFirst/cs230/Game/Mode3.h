@@ -24,19 +24,19 @@ public:
         return "Mode3";
     }
 
-    const int window_width = 1280;
-    const int window_height = 720;
-    const int map_width = 12800;
-    const int map_height = 3120;
-    const double dampingFactor = 0.9999;
+    static constexpr int window_width = 1280;
+    static constexpr int window_height = 720;
+    static constexpr int map_width = 12840;
+    static constexpr int map_height = 3120;
+    static constexpr double dampingFactor = 0.9;
+    static constexpr double camera_offset1Y = 300.0;
+    static constexpr double camera_offset1X = -90.0;
+    static constexpr double camera_offsetX_level_diff = 5.3;
 
-    const double gravity = 800.0;
+    static constexpr double gravity = 800.0;
 
-    const double stage1_floor = 0.0;
-    const double stage2_floor = 600.0;
-    const double stage3_floor = 1200.0;
-    const double stage4_floor = 1800.0;
-    const double stage5_floor = 2400.0;
+    static constexpr double stage_height = 600.0;
+    static constexpr double unit_block_side = 60.0;
 
 private:
     Ball* ball_ptr;

@@ -20,7 +20,7 @@ Created:    March 14, 2024
 int main() {
     try {
         Engine& engine = Engine::Instance();
-        engine.Start("Assignment 12 - donghyeon.jo@digipen.edu");
+        engine.Start("Final Project - donghyeon.jo@digipen.edu");
 
         engine.AddFont("Assets/Font_Simple.png");
         engine.AddFont("Assets/Font_Outlined.png");
