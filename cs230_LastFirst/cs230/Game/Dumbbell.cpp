@@ -8,6 +8,7 @@ Created:    June 18, 2024
 #include "Dumbbell.h"
 #include "..\Engine\Collision.h"
 #include "Level.h"
+#include "Particles.h"
 
 Dumbbell::Dumbbell(Math::vec2 position, Ball* ball)
 	: CS230::GameObject(position), origin(position), ball_ptr(ball), is_dead(false), disappearance(false), dead_time(0.0)
@@ -20,7 +21,10 @@ Dumbbell::Dumbbell(Math::vec2 position, Ball* ball)
 
 void Dumbbell::ResolveCollision(GameObject* other_object)
 {
+
+
 	if (other_object->Type() == GameObjectType::Ball) {
+		Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::ParticleRed>>()->Emit(5, ball_ptr->GetPosition(), { 0, 0 }, { 2 * ball_ptr->GetVelocity().x, 0 }, PI / 6);
 		change_state(&state_dying);
 	}
 }
@@ -67,7 +71,7 @@ void Dumbbell::State_Dying::Update(GameObject* object, double dt)
 
 void Dumbbell::State_Dying::CheckExit(GameObject* object)
 {
-	Dumbbell* dumbbell = static_cast<Dumbbell*>(object);
+		Dumbbell* dumbbell = static_cast<Dumbbell*>(object);
 	if (dumbbell->GetGOComponent<CS230::Sprite>()->AnimationEnded()) {
 		dumbbell->change_state(&dumbbell->state_dead);
 		dumbbell->disappearance = true;

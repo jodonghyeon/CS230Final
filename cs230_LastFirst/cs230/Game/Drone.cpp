@@ -8,6 +8,7 @@ Created:    June 18, 2024
 #include "Drone.h"
 #include "..\Engine\Collision.h"
 #include "Level.h"
+#include "Particles.h"
 
 Drone::Drone(Math::vec2 position, Ball* ball)
 	: CS230::GameObject(position), origin(position), ball_ptr(ball), is_dead(false), disappearance(false), dead_time(0.0)
@@ -20,7 +21,10 @@ Drone::Drone(Math::vec2 position, Ball* ball)
 
 void Drone::ResolveCollision(GameObject* other_object)
 {
+	
 	if (other_object->Type() == GameObjectType::Ball) {
+		Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::ParticleRed>>()->Emit(5, ball_ptr->GetPosition(), { 0, 0 }, { 2 * ball_ptr->GetVelocity().x, 0 }, PI / 6);
+
 		change_state(&state_dying);
 	}
 }

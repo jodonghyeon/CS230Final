@@ -8,6 +8,7 @@ Created:    June 18, 2024
 #include "Corn.h"
 #include "..\Engine\Collision.h"
 #include "Level.h"
+#include "Particles.h"
 
 Corn::Corn(Math::vec2 position, Ball* ball)
 	: CS230::GameObject(position), origin(position), ball_ptr(ball), is_dead(false), disappearance(false), dead_time(0.0)
@@ -20,6 +21,10 @@ Corn::Corn(Math::vec2 position, Ball* ball)
 
 void Corn::ResolveCollision(GameObject* other_object)
 {
+	Math::vec2 normalized_direction = ((Math::vec2)other_object->GetPosition() - (Math::vec2)GetPosition()).Normalize();
+	Math::vec2 hit_position = (Math::vec2)GetPosition() + GetGOComponent<CS230::CircleCollision>()->GetRadius() * normalized_direction;
+	Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::ParticleGreen>>()->Emit(5, hit_position, GetVelocity(), default_velocity * normalized_direction, PI / 3);
+
 	if (other_object->Type() == GameObjectType::Ball) {
 		change_state(&state_dying);
 	}

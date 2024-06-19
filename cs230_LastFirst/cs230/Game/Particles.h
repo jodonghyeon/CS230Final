@@ -36,4 +36,74 @@ namespace Particles {
         static constexpr int MaxCount = 150;
         static constexpr double MaxLife = 1.25;
     };
+    class SmokeRed : public CS230::Particle {
+    public:
+        SmokeRed() : Particle("Assets/SmokeRed.spt") { };
+        std::string TypeName() override { return "Smoke Particle"; }
+        static constexpr int MaxCount = 3;
+        static constexpr double MaxLife = 5.0;
+    }; 
+    class SmokeYellow : public CS230::Particle {
+    public:
+        SmokeYellow() : Particle("Assets/SmokeYellow.spt") { };
+        std::string TypeName() override { return "Smoke Particle"; }
+        static constexpr int MaxCount = 3;
+        static constexpr double MaxLife = 5.0;
+    };
+    class SmokeBlue : public CS230::Particle {
+    public:
+        SmokeBlue() : Particle("Assets/SmokeBlue.spt") { };
+        std::string TypeName() override { return "Smoke Particle"; }
+        static constexpr int MaxCount = 3;
+        static constexpr double MaxLife = 5.0;
+    };
+    class SmokeGreen : public CS230::Particle {
+    public:
+        SmokeGreen() : Particle("Assets/SmokeGreen.spt") { };
+        std::string TypeName() override { return "Smoke Particle"; }
+        static constexpr int MaxCount = 3;
+        static constexpr double MaxLife = 5.0;
+    };
+    class SmokeGray : public CS230::Particle {
+    public:
+        SmokeGray() : Particle("Assets/SmokeGray.spt") { };
+        std::string TypeName() override { return "Smoke Particle"; }
+        static constexpr int MaxCount = 3;
+        static constexpr double MaxLife = 5.0;
+    };
+    class ParticleYellow : public CS230::Particle {
+    public:
+        ParticleYellow() : Particle("Assets/ParticleYellow.spt") { };
+        std::string TypeName() override { return "MeteorBit Particle"; }
+        static constexpr int MaxCount = 150;
+        static constexpr double MaxLife = 1.25;
+    };
+    class ParticleGreen : public CS230::Particle {
+    public:
+        ParticleGreen() : Particle("Assets/ParticleGreen.spt") { };
+        std::string TypeName() override { return "MeteorBit Particle"; }
+        static constexpr int MaxCount = 150;
+        static constexpr double MaxLife = 1.25;
+    };
+    class ParticleBlue : public CS230::Particle {
+    public:
+        ParticleBlue() : Particle("Assets/ParticleBlue.spt") { };
+        std::string TypeName() override { return "MeteorBit Particle"; }
+        static constexpr int MaxCount = 150;
+        static constexpr double MaxLife = 1.25;
+    };
+    class ParticleGray : public CS230::Particle {
+    public:
+        ParticleGray() : Particle("Assets/ParticleGray.spt") { };
+        std::string TypeName() override { return "MeteorBit Particle"; }
+        static constexpr int MaxCount = 150;
+        static constexpr double MaxLife = 1.25;
+    };
+    class ParticleRed : public CS230::Particle {
+    public:
+        ParticleRed() : Particle("Assets/ParticleRed.spt") { };
+        std::string TypeName() override { return "MeteorBit Particle"; }
+        static constexpr int MaxCount = 150;
+        static constexpr double MaxLife = 1.25;
+    };
 }

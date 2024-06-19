@@ -14,7 +14,7 @@ Created:    June 16, 2024
 #include "..\Engine\Vec2.h"
 #include "..\Engine\Matrix.h"
 #include "..\Engine\Engine.h"
-#include "..\Engine\Collision.h"
+#include "..\Engine\Collision.h" 
 #include "Level.h"
 #include "Stamina.h"
 #include "Pin.h"
@@ -22,6 +22,7 @@ Created:    June 16, 2024
 #include "Corn.h"
 #include "Drone.h"
 #include "Orb.h"
+#include "Particles.h"
 
 Ball::Ball(Math::vec2 start_position) 
     : GameObject(start_position),standing_on(nullptr),previous_enemy(nullptr)
@@ -168,6 +169,23 @@ void Ball::State_Rolling::Enter(GameObject* object)
     Ball* ball = static_cast<Ball*>(object);
     ball->SetVelocity({ Ball::velocity_rolling1 + (ball->GetGOComponent<Level>()->GetLevel() - 1) * Ball::velocity_level_diff,0});
     ball->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::Rolling1));
+  
+ if (ball->GetGOComponent<Level>()->GetLevel() == 1) {
+     Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::SmokeRed>>()->Emit(2, ball->GetPosition(), { 0, 0 }, { 2 * ball->GetVelocity().x, 0 }, PI / 6);
+
+    }
+    if (ball->GetGOComponent<Level>()->GetLevel() == 2) {
+        Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::SmokeYellow>>()->Emit(2, ball->GetPosition(), { 0, 0 }, { 2 * ball->GetVelocity().x, 0 }, PI / 6);
+    }
+    if (ball->GetGOComponent<Level>()->GetLevel() == 3) {
+        Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::SmokeGreen>>()->Emit(2, ball->GetPosition(), { 0, 0 }, { 2 * ball->GetVelocity().x, 0 }, PI / 6);
+    }
+    if (ball->GetGOComponent<Level>()->GetLevel() == 4) {
+        Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::SmokeBlue>>()->Emit(2, ball->GetPosition(), { 0, 0 }, { 2 * ball->GetVelocity().x, 0  }, PI / 6);
+    }
+    if (ball->GetGOComponent<Level>()->GetLevel() == 5) {
+        Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::SmokeGray>>()->Emit(2, ball->GetPosition(), { 0, 0 }, { 2 * ball->GetVelocity().x, 0 }, PI / 6);
+    }
 }
 
 void Ball::State_Rolling::Update(GameObject* object, double dt)
@@ -179,6 +197,7 @@ void Ball::State_Rolling::Update(GameObject* object, double dt)
 void Ball::State_Rolling::CheckExit(GameObject* object)
 {
     Ball* ball = static_cast<Ball*>(object);
+    
     if (Engine::GetInput().KeyDown(CS230::Input::Keys::Space) &&
         Engine::GetGameStateManager().GetGSComponent<CS230::DampingCamera>()->GetPosition().x + Engine::GetInput().GetMousePosition().x > ball->GetPosition().x) {
         ball->change_state(&ball->state_dashing);

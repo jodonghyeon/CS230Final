@@ -25,6 +25,7 @@ Created:    June 16, 2024
 #include "Drone.h"
 #include "Orb.h"
 #include "Particles.h"
+#include "Portal.h"
 #include "Level.h"
 
 Mode3::Mode3():ball_ptr(nullptr)
@@ -40,9 +41,16 @@ void Mode3::Load()
     AddGSComponent(new Gravity(gravity));
     AddGSComponent(new CS230::GameObjectManager());
     AddGSComponent(new Background());
-    
-    AddGSComponent(new CS230::ParticleManager<Particles::Smoke>());
-
+    AddGSComponent(new CS230::ParticleManager<Particles::SmokeRed>());
+    AddGSComponent(new CS230::ParticleManager<Particles::SmokeYellow>());
+    AddGSComponent(new CS230::ParticleManager<Particles::SmokeGreen>());
+    AddGSComponent(new CS230::ParticleManager<Particles::SmokeBlue>());
+    AddGSComponent(new CS230::ParticleManager<Particles::SmokeGray>());    
+    AddGSComponent(new CS230::ParticleManager<Particles::ParticleRed>());
+    AddGSComponent(new CS230::ParticleManager<Particles::ParticleYellow>());
+    AddGSComponent(new CS230::ParticleManager<Particles::ParticleGreen>());
+    AddGSComponent(new CS230::ParticleManager<Particles::ParticleBlue>());
+    AddGSComponent(new CS230::ParticleManager<Particles::ParticleGray>());
     Background* background = GetGSComponent<Background>();
     background->Add("Assets/Background1.png", 0.25);
     background->Add("Assets/Background2.png", 0.5);
@@ -65,8 +73,10 @@ void Mode3::Load()
     gameobjectmanager->Add(new Platform({ 1500, 1000 }, 4000, Platforms::Platform2));
     gameobjectmanager->Add(new Pin({ 1000,60 }, ball_ptr));
 
+
     CS230::DampingCamera* camera = GetGSComponent<CS230::DampingCamera>();
     camera->SetPosition({ 0,0 });
+    
 }
 
 void Mode3::Update(double dt)
@@ -82,6 +92,9 @@ void Mode3::Update(double dt)
 
     if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
         Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Menu));
+    }
+    if (ball_ptr->GetPosition().x >= map_width) {
+        ball_ptr->SetPosition(Math::vec2{ 100, ball_ptr->GetPosition().y + 720 });
     }
 }
 

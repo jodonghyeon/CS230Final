@@ -7,6 +7,7 @@ Created:    June 18, 2024
 
 #include "Orb.h"
 #include "..\Engine\Collision.h"
+#include "Particles.h"
 #include "Level.h"
 
 Orb::Orb(Math::vec2 position, Ball* ball)
@@ -20,7 +21,9 @@ Orb::Orb(Math::vec2 position, Ball* ball)
 
 void Orb::ResolveCollision(GameObject* other_object)
 {
+
 	if (other_object->Type() == GameObjectType::Ball) {
+		Engine::GetGameStateManager().GetGSComponent<CS230::ParticleManager<Particles::ParticleRed>>()->Emit(5, pin->GetPosition(), { 0, 0 }, { 2 * pin->GetVelocity().x, 0 }, PI / 6);
 		change_state(&state_dying);
 	}
 }
