@@ -54,6 +54,7 @@ void Engine::Update() {
         }
         GameStateManager.Update(dt);
         input.Update();
+        GameAudioManager.Update();
     }
     
     //Update other services

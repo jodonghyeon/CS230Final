@@ -25,8 +25,9 @@ enum class GameObjectType {
     Ball,
     Pin,
     Dumbbell,
-    Corn,
+    Cone,
     Drone,
     Orb,
+    BigPin,
     Count
 };

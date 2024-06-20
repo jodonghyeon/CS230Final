@@ -8,6 +8,7 @@ Created:    June 16, 2024
 #pragma once
 #include "..\Engine\GameObject.h"
 #include "GameObjectTypes.h"
+#include "..\Engine\GameAudio.h"
 
 class Ball : public CS230::GameObject {
 public:
@@ -21,6 +22,8 @@ public:
     void ResolveCollision(GameObject* other_object) override;
 
     const Math::vec2& GetPosition() const { return GameObject::GetPosition(); }
+
+    void PlayLevelAnimation();
 
 
 private:
@@ -41,6 +44,11 @@ private:
     CS230::GameObject* standing_on;
     CS230::GameObject* previous_enemy;
 
+    CS230::GameSound* dashing_sound;
+    CS230::GameSound* breaking_sound;
+    CS230::GameSound* damaged_sound;
+    CS230::GameSound* game_over_sound;
+
     Math::vec2 get_dash_velocity();
 
     enum class Animations {
@@ -49,8 +57,16 @@ private:
         Rolling3,
         Rolling4,
         Rolling5,
-        Dashing,
-        Falling,
+        Dashing1,
+        Dashing2,
+        Dashing3,
+        Dashing4,
+        Dashing5,
+        Falling1,
+        Falling2,
+        Falling3,
+        Falling4,
+        Falling5,
         Dead
     };
 

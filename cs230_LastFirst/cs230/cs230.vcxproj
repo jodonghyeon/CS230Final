@@ -156,6 +156,8 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Engine\Collision.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Font.cpp" />
+    <ClCompile Include="Engine\GameAudio.cpp" />
+    <ClCompile Include="Engine\GameAudioManager.cpp" />
     <ClCompile Include="Engine\GameObject.cpp" />
     <ClCompile Include="Engine\GameObjectManager.cpp" />
     <ClCompile Include="Engine\GameStateManager.cpp" />
@@ -174,9 +176,11 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Game\Asteroid.cpp" />
     <ClCompile Include="Game\Background.cpp" />
     <ClCompile Include="Game\Ball.cpp" />
+    <ClCompile Include="Game\BigPin.cpp" />
     <ClCompile Include="Game\Cat.cpp" />
-    <ClCompile Include="Game\Corn.cpp" />
+    <ClCompile Include="Game\Cone.cpp" />
     <ClCompile Include="Game\Crates.cpp" />
+    <ClCompile Include="Game\Cursor.cpp" />
     <ClCompile Include="Game\Drone.cpp" />
     <ClCompile Include="Game\Dumbbell.cpp" />
     <ClCompile Include="Game\Floor.cpp" />
@@ -194,6 +198,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClCompile Include="Game\ScreenWrap.cpp" />
     <ClCompile Include="Game\Ship.cpp" />
     <ClCompile Include="Game\Splash.cpp" />
+    <ClCompile Include="Game\StatusBar.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +209,8 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Engine\ComponentManager.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Font.h" />
+    <ClInclude Include="Engine\GameAudio.h" />
+    <ClInclude Include="Engine\GameAudioManager.h" />
     <ClInclude Include="Engine\GameObject.h" />
     <ClInclude Include="Engine\GameObjectManager.h" />
     <ClInclude Include="Engine\GameState.h" />
@@ -223,9 +230,11 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\Asteroid.h" />
     <ClInclude Include="Game\Background.h" />
     <ClInclude Include="Game\Ball.h" />
+    <ClInclude Include="Game\BigPin.h" />
     <ClInclude Include="Game\Cat.h" />
-    <ClInclude Include="Game\Corn.h" />
+    <ClInclude Include="Game\Cone.h" />
     <ClInclude Include="Game\Crates.h" />
+    <ClInclude Include="Game\Cursor.h" />
     <ClInclude Include="Game\Drone.h" />
     <ClInclude Include="Game\Dumbbell.h" />
     <ClInclude Include="Game\Floor.h" />
@@ -252,6 +261,7 @@ xcopy /d /y Assets\* "$(OutputPath)Assets"
     <ClInclude Include="Game\Splash.h" />
     <ClInclude Include="Game\Stamina.h" />
     <ClInclude Include="Game\States.h" />
+    <ClInclude Include="Game\StatusBar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

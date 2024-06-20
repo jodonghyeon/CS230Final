@@ -1,0 +1,7 @@
+Assets/BigPin.png
+FrameSize 540 540
+HotSpot 0 0
+NumFrames 6
+RectCollision 0 0 540 540
+Anim Assets/BigPinSparkling.anm
+Anim Assets/BigPinDying.anm

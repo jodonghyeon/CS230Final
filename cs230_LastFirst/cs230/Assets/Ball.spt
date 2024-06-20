@@ -1,13 +1,60 @@
 Assets/Ball.png
 FrameSize 60 60
 HotSpot 0 0
-NumFrames 8
+Frame 0 0
+Frame 60 0
+Frame 120 0
+Frame 180 0
+Frame 240 0
+Frame 300 0
+Frame 360 0
+Frame 420 0
+Frame 0 60
+Frame 60 60
+Frame 120 60
+Frame 180 60
+Frame 240 60
+Frame 300 60
+Frame 360 60
+Frame 420 60
+Frame 0 120
+Frame 60 120
+Frame 120 120
+Frame 180 120
+Frame 240 120
+Frame 300 120
+Frame 360 120
+Frame 420 120
+Frame 0 180
+Frame 60 180
+Frame 120 180
+Frame 180 180
+Frame 240 180
+Frame 300 180
+Frame 360 180
+Frame 420 180
+Frame 0 240
+Frame 60 240
+Frame 120 240
+Frame 180 240
+Frame 240 240
+Frame 300 240
+Frame 360 240
+Frame 420 240
 RectCollision 0 0 60 60
 Anim Assets/BallRolling1.anm
 Anim Assets/BallRolling2.anm
 Anim Assets/BallRolling3.anm
 Anim Assets/BallRolling4.anm
 Anim Assets/BallRolling5.anm
-Anim Assets/BallDashing.anm
-Anim Assets/BallFalling.anm
+Anim Assets/BallDashing1.anm
+Anim Assets/BallDashing2.anm
+Anim Assets/BallDashing3.anm
+Anim Assets/BallDashing4.anm
+Anim Assets/BallDashing5.anm
+Anim Assets/BallFalling1.anm
+Anim Assets/BallFalling2.anm
+Anim Assets/BallFalling3.anm
+Anim Assets/BallFalling4.anm
+Anim Assets/BallFalling5.anm
 Anim Assets/BallDead.anm

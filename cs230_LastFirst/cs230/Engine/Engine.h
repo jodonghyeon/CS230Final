@@ -15,6 +15,7 @@ Created:    March 14, 2024
 #include "GameStateManager.h"
 #include "Input.h"
 #include "TextureManager.h"
+#include "GameAudioManager.h"
 #include "Font.h"
 #include <chrono>
 
@@ -45,9 +46,14 @@ public:
         return Instance().TextureManager;
     }
 
+    static CS230::GameAudioManager& GetGameAudioManager() {
+        return Instance().GameAudioManager;
+    }
+
     static CS230::Font& GetFont(int index) {
         return Instance().fonts[index];
     }
+
 
     void Start(std::string window_title);
     void Stop();
@@ -73,5 +79,6 @@ private:
     CS230::GameStateManager GameStateManager;
     CS230::Input input;
     CS230::TextureManager TextureManager;
+    CS230::GameAudioManager GameAudioManager;
     std::vector<CS230::Font> fonts;
 };

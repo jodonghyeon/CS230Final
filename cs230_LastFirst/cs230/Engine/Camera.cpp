@@ -101,14 +101,14 @@ void CS230::DampingCamera::Update(CS230::GameObject* player, double dt)
     if (position.x < limit.Left()) {
         position.x = limit.Left();
     }
-    if (position.x > limit.Right()) {
-        position.x = limit.Right();
+    if (position.x > limit.Right()-Engine::GetWindow().GetSize().x) {
+        position.x = limit.Right() - Engine::GetWindow().GetSize().x;
     }
     if (position.y < limit.Bottom()) {
         position.y = limit.Bottom();
     }
-    if (position.y > limit.Top()) {
-        position.y = limit.Top();
+    if (position.y > limit.Top() - Engine::GetWindow().GetSize().y) {
+        position.y = limit.Top() - Engine::GetWindow().GetSize().y;
     }
 }
 

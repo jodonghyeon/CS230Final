@@ -130,13 +130,28 @@
     <ClCompile Include="Game\Dumbbell.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Corn.cpp">
+    <ClCompile Include="Game\Cone.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Drone.cpp">
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Orb.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameAudio.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\GameAudioManager.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\StatusBar.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Cursor.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\BigPin.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -303,7 +318,22 @@
     <ClInclude Include="Game\Orb.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Corn.h">
+    <ClInclude Include="Game\Cone.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameAudio.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\GameAudioManager.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\StatusBar.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Cursor.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BigPin.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
