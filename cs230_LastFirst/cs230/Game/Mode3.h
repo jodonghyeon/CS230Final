@@ -36,7 +36,7 @@ public:
 
     static constexpr double gravity = 800.0;
 
-    static constexpr double stage_height = 600.0;
+    static constexpr int stage_height = 600;
     static constexpr int unit_block_side = 60;
 
     static constexpr double tutorial_time = 2.0;

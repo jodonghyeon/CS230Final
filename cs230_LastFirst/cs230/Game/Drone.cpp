@@ -37,6 +37,7 @@ void Drone::State_Alive::Enter(GameObject* object)
 	Drone* drone = static_cast<Drone*>(object);
 	drone->is_dead = false;
 	drone->disappearance = false;
+	drone->SetPosition(drone->origin);
 	drone->SetVelocity({ 0,0 });
 	drone->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
@@ -78,7 +79,6 @@ void Drone::State_Dying::CheckExit(GameObject* object)
 void Drone::State_Dead::Enter(GameObject* object)
 {
 	Drone* drone = static_cast<Drone*>(object);
-	drone->SetPosition(drone->origin);
 	drone->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
 

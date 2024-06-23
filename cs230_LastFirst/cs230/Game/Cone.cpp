@@ -37,6 +37,7 @@ void Cone::State_Alive::Enter(GameObject* object)
 	Cone* cone = static_cast<Cone*>(object);
 	cone->is_dead = false;
 	cone->disappearance = false;
+	cone->SetPosition(cone->origin);
 	cone->SetVelocity({ 0,0 });
 	cone->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
@@ -78,7 +79,6 @@ void Cone::State_Dying::CheckExit(GameObject* object)
 void Cone::State_Dead::Enter(GameObject* object)
 {
 	Cone* cone = static_cast<Cone*>(object);
-	cone->SetPosition(cone->origin);
 	cone->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
 

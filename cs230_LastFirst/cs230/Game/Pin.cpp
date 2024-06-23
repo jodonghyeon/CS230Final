@@ -37,6 +37,7 @@ void Pin::State_Alive::Enter(GameObject* object)
 	Pin* pin = static_cast<Pin*>(object);
 	pin->is_dead = false;
 	pin->disappearance = false;
+	pin->SetPosition(pin->origin);
 	pin->SetVelocity({ 0,0 });
 	pin->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
@@ -78,7 +79,6 @@ void Pin::State_Dying::CheckExit(GameObject* object)
 void Pin::State_Dead::Enter(GameObject* object)
 {
 	Pin* pin = static_cast<Pin*>(object);
-	pin->SetPosition(pin->origin);
 	pin->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
 

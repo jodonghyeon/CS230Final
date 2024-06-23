@@ -65,6 +65,6 @@ private:
 	bool is_dead;
 	bool disappearance;
 	double dead_time;
-	static constexpr double resurrection_time = 5.0;
+	static constexpr double resurrection_time = 10.0;
 	static constexpr double fly_velocity = 300.0;
 };

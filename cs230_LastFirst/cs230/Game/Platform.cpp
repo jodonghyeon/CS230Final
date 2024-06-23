@@ -40,7 +40,7 @@ void Platform::Draw(Math::TransformationMatrix camera_matrix)
 {
 	int middle_num = length / platform_unit_width - 1;
 	texture->Draw(camera_matrix * GetMatrix() * Math::TranslationMatrix(Math::ivec2{ 0,0 }), Math::ivec2{ 0,0 }, Math::ivec2{ platform_unit_width, platform_height });
-	for (int i = 1; i <= middle_num; ++i) {
+	for (int i = 1; i < middle_num; ++i) {
 		texture->Draw(camera_matrix * GetMatrix() * Math::TranslationMatrix(Math::ivec2{ platform_unit_width * i,0 }), Math::ivec2{ platform_unit_width,0 }, Math::ivec2{ platform_unit_width, platform_height });
 	}
 	texture->Draw(camera_matrix * GetMatrix() * Math::TranslationMatrix(Math::ivec2{ length - platform_unit_width,0 }), Math::ivec2{ 2 * platform_unit_width,0 }, Math::ivec2{ platform_unit_width, platform_height });

@@ -37,6 +37,7 @@ void Orb::State_Alive::Enter(GameObject* object)
 	Orb* orb = static_cast<Orb*>(object);
 	orb->is_dead = false;
 	orb->disappearance = false;
+	orb->SetPosition(orb->origin);
 	orb->SetVelocity({ 0,0 });
 	orb->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
@@ -78,7 +79,6 @@ void Orb::State_Dying::CheckExit(GameObject* object)
 void Orb::State_Dead::Enter(GameObject* object)
 {
 	Orb* orb = static_cast<Orb*>(object);
-	orb->SetPosition(orb->origin);
 	orb->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
 

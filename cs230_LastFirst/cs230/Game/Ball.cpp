@@ -33,7 +33,7 @@ Ball::Ball(Math::vec2 start_position)
     : GameObject(start_position),standing_on(nullptr),previous_enemy(nullptr)
 {
     AddGOComponent(new CS230::Sprite("Assets/Ball.spt", this));
-    Level* level = new Level(*this, exp_max1, max_level);
+    Level* level = new Level(*this, exp_max1, max_level, start_level);
     AddGOComponent(level);
 
     Stamina* stamina = new Stamina(*this, stamina_max1);
@@ -81,33 +81,37 @@ void Ball::ResolveCollision(GameObject* other_object)
     switch (other_object->Type())
     {
     case GameObjectType::Platform:
-        if (GetPosition().x > other_rect.Left() && GetPosition().x < other_rect.Right()) {
-            if (ball_rect.Top() > other_rect.Top()) {
-                SetPosition({ GetPosition().x, other_rect.Top() });
-                standing_on = other_object;
-                current_state->CheckExit(this);
-                return;
-            }
-        }
-        if (GetPosition().x > other_rect.Left() && GetPosition().x < other_rect.Right()) {
-            if (ball_rect.Bottom() < other_rect.Bottom()) {
-                SetPosition({ GetPosition().x, other_rect.Bottom() - ball_rect.Size().y });
-                SetVelocity(Math::vec2(GetVelocity().x, 0));
-                current_state->CheckExit(this);
-                return;
-            }
-        }
         if (ball_rect.Left() < other_rect.Left()) {
-            UpdatePosition(Math::vec2{ (other_rect.Left() - ball_rect.Right()), 0.0 });
+            SetPosition({ other_rect.Left() - ball_rect.Size().x , GetPosition().y });
             SetVelocity({ 0, GetVelocity().y });
+            Engine::GetLogger().LogDebug("left");
+            return;
         }
-        else {
-            UpdatePosition(Math::vec2{ (other_rect.Right() - ball_rect.Left()), 0.0 });
+        if (ball_rect.Bottom() < other_rect.Bottom()) {
+            SetPosition({ GetPosition().x, other_rect.Bottom() - ball_rect.Size().y });
+            SetVelocity(Math::vec2(GetVelocity().x, 0));
+            current_state->CheckExit(this);
+            Engine::GetLogger().LogDebug("bottom");
+            return;
+        }
+        if (ball_rect.Top() > other_rect.Top()) {
+            SetPosition({ GetPosition().x, other_rect.Top() });
+            SetVelocity(Math::vec2(GetVelocity().x, 0));
+            standing_on = other_object;
+            current_state->CheckExit(this);
+            Engine::GetLogger().LogDebug("top");
+            return;
+        }
+        if (ball_rect.Right() > other_rect.Right()) {
+            SetPosition({ other_rect.Right() , GetPosition().y });
             SetVelocity({ 0, GetVelocity().y });
+            Engine::GetLogger().LogDebug("right");
+            return;
         }
+        
         break;
     case GameObjectType::Portal:
-        SetPosition(Math::vec2{ -Mode3::unit_block_side*5,GetPosition().y });
+        SetPosition(Math::vec2{ -Mode3::unit_block_side,GetPosition().y });
         UpdatePosition(Math::vec2{ 0,Mode3::stage_height });
         break;
     case GameObjectType::Pin:
@@ -123,9 +127,10 @@ void Ball::ResolveCollision(GameObject* other_object)
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
+                GetGOComponent<Level>()->SetEXP(0.0);
+                damaged_sound->Play();
+                PlayLevelAnimation();
             }
-            damaged_sound->Play();
-            PlayLevelAnimation();
         }
         break;
     case GameObjectType::Dumbbell:
@@ -141,9 +146,10 @@ void Ball::ResolveCollision(GameObject* other_object)
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
+                GetGOComponent<Level>()->SetEXP(0.0);
+                damaged_sound->Play();
+                PlayLevelAnimation();
             }
-            damaged_sound->Play();
-            PlayLevelAnimation();
         }
         break;
     case GameObjectType::Cone:
@@ -159,9 +165,10 @@ void Ball::ResolveCollision(GameObject* other_object)
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
+                GetGOComponent<Level>()->SetEXP(0.0);
+                damaged_sound->Play();
+                PlayLevelAnimation();
             }
-            damaged_sound->Play();
-            PlayLevelAnimation();
         }
         break;
     case GameObjectType::Drone:
@@ -177,9 +184,10 @@ void Ball::ResolveCollision(GameObject* other_object)
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
+                GetGOComponent<Level>()->SetEXP(0.0);
+                damaged_sound->Play();
+                PlayLevelAnimation();
             }
-            damaged_sound->Play();
-            PlayLevelAnimation();
         }
         break;
     case GameObjectType::Orb:
@@ -195,9 +203,10 @@ void Ball::ResolveCollision(GameObject* other_object)
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
+                GetGOComponent<Level>()->SetEXP(0.0);
+                damaged_sound->Play();
+                PlayLevelAnimation();
             }
-            damaged_sound->Play();
-            PlayLevelAnimation();
         }
         break;
     case GameObjectType::BigPin:
@@ -206,8 +215,12 @@ void Ball::ResolveCollision(GameObject* other_object)
             SetVelocity({ 0,0 });
         }
         else {
-            GetGOComponent<Level>()->UpdateLevel(-GetGOComponent<Level>()->GetLevel());
+            int num = GetGOComponent<Level>()->GetLevel();
+            for (int i = 1; i <= num; ++i) {
+                GetGOComponent<Level>()->LevelDown();
+            }
         }
+        break;
     default:
         break;
     }

@@ -37,6 +37,7 @@ void Dumbbell::State_Alive::Enter(GameObject* object)
 	Dumbbell* dumbbell = static_cast<Dumbbell*>(object);
 	dumbbell->is_dead = false;
 	dumbbell->disappearance = false;
+	dumbbell->SetPosition(dumbbell->origin);
 	dumbbell->SetVelocity({ 0,0 });
 	dumbbell->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
@@ -78,7 +79,6 @@ void Dumbbell::State_Dying::CheckExit(GameObject* object)
 void Dumbbell::State_Dead::Enter(GameObject* object)
 {
 	Dumbbell* dumbbell = static_cast<Dumbbell*>(object);
-	dumbbell->SetPosition(dumbbell->origin);
 	dumbbell->GetGOComponent<CS230::Sprite>()->PlayAnimation(static_cast<int>(Animations::None));
 }
 
