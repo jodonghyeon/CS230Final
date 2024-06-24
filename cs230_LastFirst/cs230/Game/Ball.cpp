@@ -112,7 +112,7 @@ void Ball::ResolveCollision(GameObject* other_object)
         break;
     case GameObjectType::Portal:
         SetPosition(Math::vec2{ -Mode3::unit_block_side,GetPosition().y });
-        UpdatePosition(Math::vec2{ 0,Mode3::stage_height });
+        UpdatePosition(Math::vec2{ 0,Mode3::stage_height+100 });
         break;
     case GameObjectType::Pin:
         previous_enemy = other_object;
