@@ -29,7 +29,7 @@ Created:    June 16, 2024
 #include "..\Engine\Particle.h"
 #include "Particles.h"
 
-Ball::Ball(Math::vec2 start_position) 
+Ball::Ball(Math::vec2 start_position, int start_level) 
     : GameObject(start_position),standing_on(nullptr),previous_enemy(nullptr)
 {
     AddGOComponent(new CS230::Sprite("Assets/Ball.spt", this));

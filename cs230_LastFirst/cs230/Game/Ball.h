@@ -12,7 +12,7 @@ Created:    June 16, 2024
 
 class Ball : public CS230::GameObject {
 public:
-    Ball(Math::vec2 start_position);
+    Ball(Math::vec2 start_position, int start_level);
     void Update(double dt) override;
     void Draw(Math::TransformationMatrix camera_matrix) override;
 
@@ -27,10 +27,6 @@ public:
 
 
 private:
-
-    // 플레이어 볼 시작 레벨 (테스트 시 변경 가능)
-    static constexpr int start_level = 1;
-
 
     static constexpr int max_level = 5;
     static constexpr double exp_max1 = 100.0;
