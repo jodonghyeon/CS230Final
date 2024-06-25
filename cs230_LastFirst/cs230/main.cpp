@@ -15,6 +15,7 @@ Created:    March 14, 2024
 #include "Game\Mode1.h"
 #include "Game\Mode2.h"
 #include "Game\Mode3.h"
+#include "Game\Ending.h"
 #include "Game\Splash.h"
 
 int main() {
@@ -35,6 +36,8 @@ int main() {
         engine.GetGameStateManager().AddGameState(mode2);
         Mode3 mode3;
         engine.GetGameStateManager().AddGameState(mode3);
+        Ending ending;
+        engine.GetGameStateManager().AddGameState(ending);
 
         while (engine.HasGameEnded() == false) {
             engine.Update();

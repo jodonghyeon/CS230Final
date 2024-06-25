@@ -44,12 +44,9 @@ void Mode3::Load()
     timer = 0.0;
 
     tutorial_text = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Press Space to Dash!", 0xFFFFFFFF);
-    game_ending_text = Engine::GetFont(static_cast<int>(Fonts::Outlined)).PrintToTexture("Thanks for Playing!", 0xFFFFFFFF);
 
     bgm=Engine::GetGameAudioManager().LoadMusic("Assets/Mode3Music.mp3");
     bgm->Start();
-
-    ending_sound = Engine::GetGameAudioManager().LoadSound("Assets/GameEndingSound.mp3");
 
     AddGSComponent(new CS230::DampingCamera({ {0,0}, { map_width-1000,map_height } }, { {0.0, 0.1},{0.9,0.7} }, { camera_offset1X,camera_offset1Y }, dampingFactor));
 
@@ -85,11 +82,6 @@ void Mode3::Load()
     background->Add("Assets/Background3.png", 0.75);
 
     CS230::GameObjectManager* gameobjectmanager = GetGSComponent<CS230::GameObjectManager>();
-
-
-    // 알아보기 쉽도록, 같은 층이라면 x좌표 작은 오브젝트부터 순서대로 Add하기!!(x좌표 같으면 아래있는 오브젝트부터)
-    // position 좌표 입력 시, Mode3::unit_block_side(한 블록 길이)와 Mode3::stage_height(한 스테이지 높이) 단위 상수 꼭 사용하기!
-    // 직접 플레이 해보면서 추가하기
     
     // stage 1
     gameobjectmanager->Add(new Platform({ -4 * Mode3::unit_block_side, 0 }, 40 * Mode3::unit_block_side, Platforms::Platform1));
@@ -131,207 +123,212 @@ void Mode3::Load()
     gameobjectmanager->Add(new Platform({ 22 * Mode3::unit_block_side, Mode3::stage_height }, 16 * Mode3::unit_block_side, Platforms::Platform2));
     gameobjectmanager->Add(new Dumbbell({ 23 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 38 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 38 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, 9 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Pin({ 45 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 45 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + Mode3::stage_height }, 11 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Pin({ 54 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 45 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + Mode3::stage_height }, 14 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Dumbbell({ 57 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 42 * Mode3::unit_block_side, Mode3::stage_height }, 19 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Cone({ 48 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 42 * Mode3::unit_block_side, Mode3::stage_height }, 22 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Cone({ 49 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 63 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, 15 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Dumbbell({ 70 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 66 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, 15 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Dumbbell({ 73 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 78 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 84 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, 6 * Mode3::unit_block_side, Platforms::Platform2));
 
-    gameobjectmanager->Add(new Platform({ 98 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Pin({ 101 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 96 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform2));
     gameobjectmanager->Add(new Cone({ 105 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Dumbbell({ 105 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 110 * Mode3::unit_block_side, Mode3::stage_height }, 15 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Pin({ 115 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 120 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Dumbbell({ 125 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 124 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Dumbbell({ 130 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 135 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 135 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform2));
 
     gameobjectmanager->Add(new Platform({ 147 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Dumbbell({ 149 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
     
     gameobjectmanager->Add(new Platform({ 151 * Mode3::unit_block_side, + Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Cone({ 155 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
     
     gameobjectmanager->Add(new Platform({ 159 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Pin({ 164 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 163 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform2));
     gameobjectmanager->Add(new Dumbbell({ 166 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
+    gameobjectmanager->Add(new Platform({ 170 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + Mode3::stage_height }, 11 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Dumbbell({ 180 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 175 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform2));
-    gameobjectmanager->Add(new Dumbbell({ 178 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
-
-
-    gameobjectmanager->Add(new Dumbbell({ 185 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Platform({ 182 * Mode3::unit_block_side, 2* Mode3::unit_block_side + Mode3::stage_height }, 16 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Platform({ 180 * Mode3::unit_block_side, 2* Mode3::unit_block_side + Mode3::stage_height }, 38 * Mode3::unit_block_side, Platforms::Platform2));
+    gameobjectmanager->Add(new Dumbbell({ 186 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 92 * Mode3::unit_block_side,  Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform2)); // 이 플랫폼은 stage 1 과 이어지는 플랫폼이므로, 염두해두고 레벨 디자인 하기.
 
 
     // stage 3
-   // Redesigned Complex Stage 2 with Numerous Short Platforms
 
     gameobjectmanager->Add(new Platform({ 0, 2 * Mode3::stage_height }, 25 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Cone({ 15 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 10 * Mode3::unit_block_side, 3* Mode3::unit_block_side + 2 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Pin({ 15 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 25 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Cone({ 28 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 29 * Mode3::unit_block_side, 2 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Cone({ 20 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
 
-    gameobjectmanager->Add(new Drone({ 33 * Mode3::unit_block_side,  Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 25 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 20 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Cone({ 34 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 40 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Pin({ 45 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 29 * Mode3::unit_block_side, 2 * Mode3::stage_height }, 18 * Mode3::unit_block_side, Platforms::Platform3));
 
-    gameobjectmanager->Add(new Platform({ 53 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 9 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Platform({ 56 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 16 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Cone({ 63 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 57 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 4 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Platform({ 67 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Dumbbell({ 73 * Mode3::unit_block_side, 8 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 60 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Drone({ 65 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 70 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Dumbbell({ 75 * Mode3::unit_block_side, 8 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 80 * Mode3::unit_block_side,  2 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Pin({ 84 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 75 * Mode3::unit_block_side,  3 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 9 * Mode3::unit_block_side, Platforms::Platform3));
 
     gameobjectmanager->Add(new Platform({ 89 * Mode3::unit_block_side,  5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
 
-    gameobjectmanager->Add(new Platform({ 89 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Dumbbell({ 93 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 86 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
 
-    gameobjectmanager->Add(new Platform({ 98 * Mode3::unit_block_side, 6 *Mode3::unit_block_side + 2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Pin({ 102 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 98 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
 
-    gameobjectmanager->Add(new Platform({ 100 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Cone({ 105 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 100 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 16 * Mode3::unit_block_side, Platforms::Platform3));
+    gameobjectmanager->Add(new Cone({ 105 * Mode3::unit_block_side,  Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 110 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform3));
     gameobjectmanager->Add(new Drone({ 115 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
-    
-    gameobjectmanager->Add(new Platform({ 127 * Mode3::unit_block_side, 8 * Mode3::unit_block_side + 2* Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
+
+    gameobjectmanager->Add(new Platform({ 127 * Mode3::unit_block_side, 8 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
 
     gameobjectmanager->Add(new Platform({ 127 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
     gameobjectmanager->Add(new Cone({ 130 * Mode3::unit_block_side,  Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 140 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
-    gameobjectmanager->Add(new Pin({ 145 * Mode3::unit_block_side, 5 * Mode3::unit_block_side  + 2 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Pin({ 145 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 155 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
 
+    gameobjectmanager->Add(new Platform({ 153 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform3));
 
     gameobjectmanager->Add(new Platform({ 163 * Mode3::unit_block_side,  3 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 5 * Mode3::unit_block_side, Platforms::Platform3));
     gameobjectmanager->Add(new Cone({ 166 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 170 * Mode3::unit_block_side,   Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
-   
 
     gameobjectmanager->Add(new Platform({ 180 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
     gameobjectmanager->Add(new Dumbbell({ 185 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 2 * Mode3::stage_height }, ball_ptr));
 
     gameobjectmanager->Add(new Platform({ 190 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform3));
 
- 
+    gameobjectmanager->Add(new Platform({ 53 * Mode3::unit_block_side,  2 * Mode3::stage_height }, 22 * Mode3::unit_block_side, Platforms::Platform3));
 
 
 
     // stage 4
 
-    //gameobjectmanager->Add(new Drone({ 174 * Mode3::unit_block_side, 5 * Mode3::unit_block_side }, ball_ptr));
-    gameobjectmanager->Add(new Platform({ 0,  3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Platform({ 0, 3 * Mode3::stage_height }, 20 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Cone({ 19 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 20 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Drone({ 26 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
 
-    gameobjectmanager->Add(new Platform({ 10 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 6 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Orb({ 12 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 36 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
 
-    gameobjectmanager->Add(new Platform({ 18 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Dumbbell({ 20 * Mode3::unit_block_side, Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 25 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Cone({ 28 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 46 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Drone({ 50 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 35 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 6 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Orb({ 38 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 43 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Pin({ 45 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 25 * Mode3::unit_block_side,  Mode3::unit_block_side + 3 * Mode3::stage_height }, 15 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Pin({ 32 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 50 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 6 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Cone({ 53 * Mode3::unit_block_side, Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Orb({ 56 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 42 * Mode3::unit_block_side, 3 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Cone({ 50 * Mode3::unit_block_side,  Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 60 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Dumbbell({ 65 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 72 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Pin({ 75 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 80 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Cone({ 83 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Orb({ 86 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 90 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Dumbbell({ 93 * Mode3::unit_block_side, Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 100 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Pin({ 103 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 110 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Cone({ 113 * Mode3::unit_block_side, Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Orb({ 116 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 120 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Dumbbell({ 125 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Platform({ 132 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Pin({ 135 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 140 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Cone({ 143 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Orb({ 146 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 150 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Dumbbell({ 153 * Mode3::unit_block_side, Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Platform({ 160 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Pin({ 163 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Platform({ 170 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 7 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Cone({ 173 * Mode3::unit_block_side, Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Orb({ 176 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-
-    gameobjectmanager->Add(new Drone({ 30 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Drone({ 50 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 58 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 14 * Mode3::unit_block_side, Platforms::Platform4));
     gameobjectmanager->Add(new Drone({ 70 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Drone({ 90 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Drone({ 110 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Drone({ 130 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Drone({ 150 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
 
-    gameobjectmanager->Add(new Platform({ 180 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Dumbbell({ 185 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
-    gameobjectmanager->Add(new Platform({ 192 * Mode3::unit_block_side, 0 + 3 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform4));
-    gameobjectmanager->Add(new Pin({ 195 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 76 * Mode3::unit_block_side, 3 * Mode3::stage_height }, 15 * Mode3::unit_block_side, Platforms::Platform4));
+
+    gameobjectmanager->Add(new Platform({ 94 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Drone({ 100 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 97 * Mode3::unit_block_side, 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Cone({ 100 * Mode3::unit_block_side,  Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 115 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
+
+    gameobjectmanager->Add(new Platform({ 112 * Mode3::unit_block_side, 3 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Orb({ 117 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 130 * Mode3::unit_block_side,  4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 6 * Mode3::unit_block_side, Platforms::Platform4));
+
+    gameobjectmanager->Add(new Platform({ 138 * Mode3::unit_block_side, 3 * Mode3::stage_height }, 9 * Mode3::unit_block_side, Platforms::Platform4));
 
 
+    gameobjectmanager->Add(new Platform({ 147 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 15 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Drone({ 160 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 168 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 18 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Drone({ 175 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+    gameobjectmanager->Add(new Orb({ 185 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 180 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 3 * Mode3::stage_height }, 18 * Mode3::unit_block_side, Platforms::Platform4));
+    gameobjectmanager->Add(new Dumbbell({ 185 * Mode3::unit_block_side, 8 * Mode3::unit_block_side + 3 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 190 * Mode3::unit_block_side, 3 * Mode3::stage_height }, 18 * Mode3::unit_block_side, Platforms::Platform4));
 
     // stage 5
+    gameobjectmanager->Add(new Platform({ 0, 4 * Mode3::stage_height }, 20 * Mode3::unit_block_side, Platforms::Platform5));
 
-    //gameobjectmanager->Add(new Orb({ 174 * Mode3::unit_block_side, 5 * Mode3::unit_block_side }, ball_ptr));
+    gameobjectmanager->Add(new Platform({ 23 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Drone({ 31 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 22 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 9 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Orb({ 30 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 33 * Mode3::unit_block_side, 4 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 39 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Drone({ 45 * Mode3::unit_block_side, 7 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 51 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 8 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 47 * Mode3::unit_block_side, Mode3::unit_block_side + 4 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 65 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 14 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Drone({ 75 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 83 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 87 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Orb({ 90 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 100 * Mode3::unit_block_side, 4 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 115 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 14 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Orb({ 123 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 133 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 132 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Orb({ 137 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+    gameobjectmanager->Add(new Platform({ 145 * Mode3::unit_block_side, 3 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 10 * Mode3::unit_block_side, Platforms::Platform5));
+
+    gameobjectmanager->Add(new Platform({ 160 * Mode3::unit_block_side, 5 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Drone({ 170 * Mode3::unit_block_side, 6 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+
+    gameobjectmanager->Add(new Platform({ 162 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 4 * Mode3::stage_height }, 12 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Orb({ 165 * Mode3::unit_block_side, 2 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
+
+
+    gameobjectmanager->Add(new Platform({ 175 * Mode3::unit_block_side,  4 * Mode3::stage_height }, 30 * Mode3::unit_block_side, Platforms::Platform5));
+    gameobjectmanager->Add(new Orb({ 178 * Mode3::unit_block_side, 1 * Mode3::unit_block_side + 4 * Mode3::stage_height }, ball_ptr));
 
     Math::irect portal1 = { {Mode3::map_width - 1000, Mode3::unit_block_side}, {Mode3::map_width + 120, Mode3::stage_height} };
     Math::irect portal2 = { {Mode3::map_width - 1000, Mode3::stage_height + Mode3::unit_block_side}, {Mode3::map_width + 120, 2 * Mode3::stage_height} };
@@ -342,11 +339,12 @@ void Mode3::Load()
     gameobjectmanager->Add(new Portal(4, portal3));
     gameobjectmanager->Add(new Portal(4, portal4));
 
-    big_pin_ptr = new BigPin({ Mode3::map_width-1500,4 * Mode3::stage_height + Mode3::unit_block_side },ball_ptr);
+    big_pin_ptr = new BigPin({ Mode3::map_width-1500,4 * Mode3::stage_height + Mode3::unit_block_side }, ball_ptr);
+    
     gameobjectmanager->Add(big_pin_ptr);
 
-    // 플래이어 볼 시작 위치, 시작 레벨
-    ball_ptr = new Ball({ 0, 1000}, 2);
+    // player ball start position and level
+    ball_ptr = new Ball({0, 6 * Mode3::unit_block_side}, 1);
 
     gameobjectmanager->Add(ball_ptr);
 }
@@ -354,6 +352,10 @@ void Mode3::Load()
 void Mode3::Update(double dt)
 {
     //Engine::GetLogger().LogDebug("mouseX: " + std::to_string(Engine::GetInput().GetMousePosition().x) + " mouseY: " + std::to_string(Engine::GetInput().GetMousePosition().y));
+    //Engine::GetLogger().LogDebug(std::to_string(ball_ptr->GetPosition().x) + " " + std::to_string(ball_ptr->GetPosition().y));
+    //Engine::GetLogger().LogDebug(ball_ptr->current_state->GetName());
+    //Engine::GetLogger().LogDebug(std::to_string(ball_ptr->GetGOComponent<Level>()->GetLevel())+" "+std::to_string(ball_ptr->GetGOComponent<Level>()->GetEXP()) + " " + std::to_string(ball_ptr->GetGOComponent<Level>()->GetEXPMax()));
+    
     timer += dt;
     
     UpdateGSComponents(dt);
@@ -370,21 +372,12 @@ void Mode3::Update(double dt)
         GetGSComponent<Cursor>()->SetType(0);
     }
 
-    //Engine::GetLogger().LogDebug(std::to_string(ball_ptr->GetPosition().x) + " " + std::to_string(ball_ptr->GetPosition().y));
-    Engine::GetLogger().LogDebug(ball_ptr->current_state->GetName());
-    //Engine::GetLogger().LogDebug(std::to_string(ball_ptr->GetGOComponent<Level>()->GetLevel())+" "+std::to_string(ball_ptr->GetGOComponent<Level>()->GetEXP()) + " " + std::to_string(ball_ptr->GetGOComponent<Level>()->GetEXPMax()));
 
     if (!big_pin_ptr->IsAlive()) {
-        timer = 0.0;
-        game_ending = true;
-        ending_sound->Play();
+        Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Ending));
     }
 
-    if (timer >= ending_time && game_ending) {
-        game_clear = true;
-    }
-
-    if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)||game_clear) {
+    if (Engine::GetInput().KeyJustReleased(CS230::Input::Keys::Escape)) {
         Engine::GetGameStateManager().SetNextGameState(static_cast<int>(States::Menu));
     }
 }
@@ -409,8 +402,5 @@ void Mode3::Draw()
     GetGSComponent<Cursor>()->Draw();
     if (timer <= tutorial_time) {
         tutorial_text->Draw(Math::TranslationMatrix(Math::vec2{ (double)(Engine::GetWindow().GetSize().x) / 10, (double)(Engine::GetWindow().GetSize().y / 5) }));
-    }
-    if (!big_pin_ptr->IsAlive()) {
-        game_ending_text->Draw(Math::TranslationMatrix(Math::vec2{ (double)(Engine::GetWindow().GetSize().x - 2.0 * game_ending_text->GetSize().x) / 2, (double)(Engine::GetWindow().GetSize().y - 2.0 * game_ending_text->GetSize().y)/2 }) * Math::ScaleMatrix(Math::vec2{ 2.0,2.0 }));
     }
 }

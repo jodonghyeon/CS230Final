@@ -15,5 +15,6 @@ enum class States {
     Menu,
     Mode1,
     Mode2,
-    Mode3
+    Mode3,
+    Ending
 };

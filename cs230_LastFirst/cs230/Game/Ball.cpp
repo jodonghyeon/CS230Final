@@ -53,6 +53,7 @@ void Ball::Update(double dt)
 {
     //Engine::GetLogger().LogDebug("stamina: " + std::to_string(GetGOComponent<Stamina>()->GetStamina()));
     //Engine::GetLogger().LogDebug("Level: "+std::to_string(GetGOComponent<Level>()->GetLevel()));
+    //Engine::GetLogger().LogDebug(std::to_string(GetPosition().x/Mode3::unit_block_side));
     GameObject::Update(dt);
 }
 
@@ -84,14 +85,12 @@ void Ball::ResolveCollision(GameObject* other_object)
         if (ball_rect.Left() < other_rect.Left()) {
             SetPosition({ other_rect.Left() - ball_rect.Size().x , GetPosition().y });
             SetVelocity({ 0, GetVelocity().y });
-            Engine::GetLogger().LogDebug("left");
             return;
         }
         if (ball_rect.Bottom() < other_rect.Bottom()) {
             SetPosition({ GetPosition().x, other_rect.Bottom() - ball_rect.Size().y });
             SetVelocity(Math::vec2(GetVelocity().x, 0));
             current_state->CheckExit(this);
-            Engine::GetLogger().LogDebug("bottom");
             return;
         }
         if (ball_rect.Top() > other_rect.Top()) {
@@ -99,13 +98,11 @@ void Ball::ResolveCollision(GameObject* other_object)
             SetVelocity(Math::vec2(GetVelocity().x, 0));
             standing_on = other_object;
             current_state->CheckExit(this);
-            Engine::GetLogger().LogDebug("top");
             return;
         }
         if (ball_rect.Right() > other_rect.Right()) {
             SetPosition({ other_rect.Right() , GetPosition().y });
             SetVelocity({ 0, GetVelocity().y });
-            Engine::GetLogger().LogDebug("right");
             return;
         }
         
@@ -126,8 +123,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
+                double previous_exp_ratio = GetGOComponent<Level>()->GetEXP() / GetGOComponent<Level>()->GetEXPMax();
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
-                GetGOComponent<Level>()->SetEXP(0.0);
+                GetGOComponent<Level>()->SetEXP(previous_exp_ratio * GetGOComponent<Level>()->GetEXPMax());
                 damaged_sound->Play();
                 PlayLevelAnimation();
             }
@@ -145,8 +143,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
+                double previous_exp_ratio = GetGOComponent<Level>()->GetEXP() / GetGOComponent<Level>()->GetEXPMax();
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
-                GetGOComponent<Level>()->SetEXP(0.0);
+                GetGOComponent<Level>()->SetEXP(previous_exp_ratio * GetGOComponent<Level>()->GetEXPMax());
                 damaged_sound->Play();
                 PlayLevelAnimation();
             }
@@ -164,8 +163,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
+                double previous_exp_ratio = GetGOComponent<Level>()->GetEXP() / GetGOComponent<Level>()->GetEXPMax();
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
-                GetGOComponent<Level>()->SetEXP(0.0);
+                GetGOComponent<Level>()->SetEXP(previous_exp_ratio * GetGOComponent<Level>()->GetEXPMax());
                 damaged_sound->Play();
                 PlayLevelAnimation();
             }
@@ -183,8 +183,9 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
+                double previous_exp_ratio = GetGOComponent<Level>()->GetEXP() / GetGOComponent<Level>()->GetEXPMax();
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
-                GetGOComponent<Level>()->SetEXP(0.0);
+                GetGOComponent<Level>()->SetEXP(previous_exp_ratio* GetGOComponent<Level>()->GetEXPMax());
                 damaged_sound->Play();
                 PlayLevelAnimation();
             }
@@ -202,15 +203,16 @@ void Ball::ResolveCollision(GameObject* other_object)
         else {
             GetGOComponent<Level>()->LevelDown();
             if (GetGOComponent<Level>()->GetLevel() != 0) {
+                double previous_exp_ratio = GetGOComponent<Level>()->GetEXP() / GetGOComponent<Level>()->GetEXPMax();
                 GetGOComponent<Level>()->SetEXPMax(exp_max1 + exp_max_level_diff * (GetGOComponent<Level>()->GetLevel() - 1));
-                GetGOComponent<Level>()->SetEXP(0.0);
+                GetGOComponent<Level>()->SetEXP(previous_exp_ratio* GetGOComponent<Level>()->GetEXPMax());
                 damaged_sound->Play();
                 PlayLevelAnimation();
             }
         }
         break;
     case GameObjectType::BigPin:
-        if (current_state == &state_dashing && GetGOComponent<Level>()->GetLevel() >= BigPin::level_default) {
+        if (current_state == &state_dashing) {
             other_object->ResolveCollision(this);
             SetVelocity({ 0,0 });
         }
@@ -242,7 +244,6 @@ void Ball::State_Rolling::Enter(GameObject* object)
 {
     Ball* ball = static_cast<Ball*>(object);
     ball->SetVelocity({ Ball::velocity_rolling1 + (ball->GetGOComponent<Level>()->GetLevel() - 1) * Ball::velocity_level_diff,0});
-    Engine::GetLogger().LogDebug(std::to_string(ball->GetGOComponent<Level>()->GetLevel()));
     ball->PlayLevelAnimation();
 }
 
@@ -331,6 +332,7 @@ void Ball::State_Falling::Update(GameObject* object, double dt)
 {
     Ball* ball = static_cast<Ball*>(object);
     ball->UpdateVelocity({ 0,-Engine::GetGameStateManager().GetGSComponent<Gravity>()->GetValue() * dt });
+    ball->GetGOComponent<Stamina>()->UpdateStamina((Ball::stamina_recovery1 + Ball::stamina_recovery_level_diff * (ball->GetGOComponent<Level>()->GetLevel() - 1)) * dt);
 }
 
 void Ball::State_Falling::CheckExit(GameObject* object)
